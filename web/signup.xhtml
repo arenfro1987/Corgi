@@ -9,11 +9,8 @@
     <ui:define name="content" >
         <h1>Sign Up</h1>
         <h:form>
-        <p:panel class="alert alert-danger" rendered="#{not empty facesContext.getMessages(null)}">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <span class="sr-only">Error:</span>
-            <h:messages />
-        </p:panel>
+        <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+
         <div class="col-md-2">
             UCO Id:
         </div>
