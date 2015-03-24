@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/templates/default/main.xhtml">
+        <ui:define name="content" >
+            <h1>Log In</h1>
+            <form action="j_security_check" method="POST">
+                <div class="alert alert-danger">Oops! Either your username or password is
+                 incorrect. Please try again.</div>
+                <div class="input-group">  
+                    <div class="col-md-2">Username:</div>
+                    <div class="col-md-10"><input type="text" name="j_username" /></div>
+                    <div class="col-md-2">Password:</div> 
+                    <div class="col-md-10"><input type="text" name="j_password" /></div>
+                    <input type="submit" value="Login" />
+                </div>
+            <div class="alert alert-link">Not registered yet? <h:link outcome="signup" value="Sign Up now!" /></div>
+        </ui:define>
+    </ui:composition>
+</html>
