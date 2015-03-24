@@ -9,13 +9,14 @@ create table USER_TABLE (
     primary key(USER_ID)    
 );
 /*
-    professorgroup, studentgroup, secretarygroup, admingroup
+    studentgroup, secretarygroup, admingroup
 */
 create table GROUP_TABLE (    
     GROUPNAME varchar(20),
+    EMAIL varchar(50) not null,
     USER_ID integer,
     primary key(GROUPNAME, USER_ID),
-    foreign key(USER_ID) references USER_TABLE(USER_ID)
+    foreign key(USER_ID, EMAIL) references USER_TABLE(USER_ID, EMAIL)
 );
 
 create table COURSE (
