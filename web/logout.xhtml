@@ -5,12 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="/templates/default/main.xhtml">
         <ui:define name="content" >
-            <h:form>
-            <div class="alert alert-danger">
-                <h2>Oops! You aren't allowed to be here.</h2>
-                <h:link outcome="login" value="Let's get back to safety." />
-            </div>
-            </h:form>
+            #{session.invalidate()}
+        <h2>Logout successful!</h2>
         </ui:define>
     </ui:composition>
 </html>
