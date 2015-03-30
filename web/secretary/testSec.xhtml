@@ -2,10 +2,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition template="/templates/default/main.xhtml">
         <ui:define name="content" >
-            <p>Congrats on being a secretary!</p>
+            <p:dataTable var="completeStudentReview" value="#{secretary.studentList}">
+                <p:column headerText="Student Name">
+                    <h:outputText value="#{completeStudentReview.studentName}" />
+                </p:column>
+
+                <p:column headerText="Advisor">
+                    <h:outputText value="#{completeStudentReview.advisor}" />
+                </p:column>
+
+                <p:column headerText="Meeting Date">
+                    <h:outputText value="#{completeStudentReview.meetingDate}" />
+                </p:column>
+
+                <p:column headerText="Meeting Time">
+                    <h:outputText value="#{completeStudentReview.meetingTime}" />
+                </p:column>
+
+                <p:column headerText="Advisement Form">
+                    <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                        <p:fileDownload value="#{secretary.file}" />
+                    </p:commandButton>
+
+                </p:column>
+
+                <p:column headerText="Email Student">
+                    <h:commandLink action="#{sendEmails.send(completeStudentReview.studentEmail, completeStudentReview.studentName)}"/>
+                </p:column>
+            </p:dataTable>
         </ui:define>
     </ui:composition>
 </html>
