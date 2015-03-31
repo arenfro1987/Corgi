@@ -43,17 +43,33 @@
                 </div>
             </div>
         </div>
-            <h1>Log In</h1>
-            <form action="j_security_check" method="POST">
-                <div class="input-group">  
-                    <div class="col-md-2">Username:</div>
-                    <div class="col-md-10"><input type="text" name="j_username" /></div>
-                    <div class="col-md-2">Password:</div> 
-                    <div class="col-md-10"><input type="password" name="j_password" /></div>
-                    <input type="submit" value="Login" />
-                </div>
-            </form>
-            <div class="alert alert-link">Not registered yet? <h:link outcome="signup" value="Sign Up now!" /></div>
+        
+        <div class="container">
+            <div class="jumbotron">
+                <h1>Welcome to the CORGI Advisement System</h1>
+                <h2 class="col-sm-offset-2">Log In</h2>
+                <form class="form-horizontal" role="form" action="j_security_check" method="POST">
+                    <div class="form-group">
+                      <label class="control-label col-sm-2" for="email">Email:</label>
+                      <div class="col-sm-4">
+                        <input type="text" name="j_username"  class="form-control" id="email" placeholder="Enter email" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-sm-2" for="pwd">Password:</label>
+                      <div class="col-sm-4"> 
+                        <input type="password" name="j_password" class="form-control" id="pwd" placeholder="Enter password" />
+                      </div>
+                    </div>
+                    <div class="form-group"> 
+                      <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                <div class="alert alert-link col-sm-offset-2">Not registered yet? <h:link outcome="signup" value="Sign Up now!" /></div>
+            </div>
+        </div>
     </h:body>
             
 </html>
