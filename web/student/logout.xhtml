@@ -7,6 +7,15 @@
         <ui:define name="content" >
             #{session.invalidate()}
         <h2>Logout successful!</h2>
+        <div class="col-sm-4">
+        <a href="faces/secretary/secretaryHome.xhtml">Secretary Home</a>
+        </div>
+        <div class="col-sm-4">
+        <a href="studentHome.xhtml">Student Home</a>
+        </div>
+        <div class="col-sm-4">
+        <a href="faces/admin/adminHome.xhtml">Admin Home</a>
+        </div>
         </ui:define>
     </ui:composition>
 </html>
