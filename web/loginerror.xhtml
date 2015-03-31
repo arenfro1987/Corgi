@@ -12,7 +12,7 @@
  
             <title>CORGI</title>
             <link href="resources/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet" />
-            <link href="css/dashboard.css" type="text/css" rel="stylesheet" />
+            <link href="resources/css/dashboard.css" type="text/css" rel="stylesheet" />
         </f:facet>
  
         <f:facet name="middle">
@@ -50,7 +50,7 @@
             <div class="jumbotron">
                 <h1>Welcome to the CORGI Advisement System</h1>
                 <h2 class="col-sm-offset-2">Log In</h2>
-                <div class="alert alert-danger">Oops! You entered incorrect credentials. Please try again.</div>
+                <div class="alert alert-danger col-sm-offset-2">Oops! You entered incorrect credentials. Please try again.</div>
                 <form class="form-horizontal" role="form" action="j_security_check" method="POST">
                     <div class="form-group">
                       <label class="control-label col-sm-2" for="email">Email:</label>
@@ -70,7 +70,7 @@
                       </div>
                     </div>
                   </form>
-                <div class="alert alert-link col-sm-offset-2">Not registered yet? <h:link outcome="signup" value="Sign Up now!" /></div>
+                <div class="alert alert-link col-sm-offset-2">Not registered yet? <a href="faces/signup.xhtml">Sign up now!</a></div>
             </div>
         </div>
     </h:body>
