@@ -21,16 +21,16 @@ create table UserTable (
     primary key(userID)    
 );
 
-create table Course(
-    hours integer(2),
+create table Course (
     courseID integer not null generated always 
         as identity(start with 1, increment by 1),
+    hours integer,
     dept varchar(30) not null,
-    courseNumber integer(4) not null,
+    courseNumber integer not null,
     title varchar(200) not null,
     semester varchar(6),
-    courseYear integer(4),
-    secNumber integer(11),
+    courseYear integer,
+    secNumber integer,
     primary key(courseID)
 );
 
@@ -38,14 +38,14 @@ create table Appointment(
     appointmentID integer not null generated always
         as identity(start with 1, increment by 1),
     appointmentDate Date not null,
-    duration integer(3),
+    duration integer,
     userID integer,
     primary key(appointmentID)
 );
 
 create table MajorCodes(
     userID integer,
-    majorCode integer(4),
+    majorCode integer,
     primary key(userID)
 );
 
@@ -93,7 +93,7 @@ create table IsCoReq(
 );
 
 create table MajorReq (
-    majorCode integer(4),
+    majorCode integer,
     courseID integer,
     primary key(majorCode, courseID)
 );
