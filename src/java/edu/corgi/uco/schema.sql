@@ -17,35 +17,35 @@ create table UserTable (
     ucoID varchar(10),
     password char(64) not null, /*SHA-256 Encrypted*/
     firstName varchar(20) not null,
-    lastName varchar(20) not null
+    lastName varchar(20) not null,
     primary key(userID)    
 );
 
 create table Course(
     hours integer(2),
     courseID integer not null generated always 
-        as identity(start with 1, increment by 1)
+        as identity(start with 1, increment by 1),
     dept varchar(30) not null,
-    course# integer(4) not null,
+    courseNumber integer(4) not null,
     title varchar(200) not null,
     semester varchar(6),
     courseYear integer(4),
-    sec# integer(11)
+    secNumber integer(11),
     primary key(courseID)
 );
 
 create table Appointment(
     appointmentID integer not null generated always
-        as identity(start with 1, increment by 1)
+        as identity(start with 1, increment by 1),
     appointmentDate Date not null,
     duration integer(3),
-    userID integer
+    userID integer,
     primary key(appointmentID)
 );
 
 create table MajorCodes(
     userID integer,
-    majorCode integer(4)
+    majorCode integer(4),
     primary key(userID)
 );
 
@@ -54,7 +54,7 @@ create table GroupTable(
     groupname varchar(50),
     email varchar(50),
     groupID integer not null generated always 
-        as identity (start with 1, increment by 1)
+        as identity (start with 1, increment by 1),
     primary key(groupID)
 );
 
@@ -63,42 +63,37 @@ create table Schedule(
         as identity (start with 1, increment by 1),
     userID integer,
     approved boolean,
-    holdRemoved boolean
+    holdRemoved boolean,
     primary key(scheduleID)
 );
 
 create table CourseScheduleLinkage(
     userID integer,
-    courseID integer
+    courseID integer,
     primary key(userID, courseID)
-}
+);
 
 create table TakenCourses(
     courseID integer,
     userID integer,
-    grade varchar(1)
+    grade varchar(1),
     primary key(courseID, userID)
 );
 
 create table IsPreReq(
     mainCourseID  integer,
-    preReqCourseID integer
+    preReqCourseID integer,
     primary key(mainCourseID, preReqCourseID)
 );
 
 create table IsCoReq(
     mainCourseID integer,
-    coReqCourseID integer
+    coReqCourseID integer,
     primary key(mainCourseID, coReqCourseID)
 );
 
-create table MajorReq(
+create table MajorReq (
     majorCode integer(4),
-    courseID integer
+    courseID integer,
     primary key(majorCode, courseID)
 );
-    
-    
-    
-    
-/

@@ -11,16 +11,14 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link href="/resources/css/dashboard.css" type="text/css" rel="stylesheet" />
+            <link href="/resources/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet" />
  
             <title>CORGI</title>
         </f:facet>
  
         <f:facet name="middle">
-            <h:outputStylesheet name="bootstrap/css/bootstrap.css" />
-            <h:outputStylesheet name="css/dashboard.css" />
             
-            
-
             
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
             
@@ -34,6 +32,8 @@
     </h:head>
               
     <h:body>
+        <h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+        <h:outputStylesheet name="css/dashboard.css" />
         <ui:include src="header.xhtml" />
         <ui:include src="content.xhtml" />  
     </h:body>
