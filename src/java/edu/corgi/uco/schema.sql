@@ -9,6 +9,7 @@ drop table TakenCourses;
 drop table IsPreReq;
 drop table IsCoReq;
 drop table MajorReq;
+drop table CourseOffering;
 
 create table UserTable (
     userID integer not null generated always 
@@ -28,11 +29,18 @@ create table Course (
     dept varchar(30) not null,
     courseNumber integer not null,
     title varchar(200) not null,
-    semester varchar(6),
-    courseYear integer,
-    secNumber integer,
     primary key(courseID)
 );
+
+create table CourseOffering (
+    courseOfferingID integer not null generated always 
+        as identity(start with 1, increment by 1),
+    courseNumber integer not null,
+    semester varchar(15),
+    yearOffered integer,
+    primary key(courseOfferingID)
+);
+
 
 create table Appointment(
     appointmentID integer not null generated always
