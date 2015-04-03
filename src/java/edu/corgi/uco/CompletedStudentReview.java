@@ -6,9 +6,9 @@
 package edu.corgi.uco;
 
 import java.io.Serializable;
+import java.sql.Date;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
 
 /**
@@ -17,21 +17,18 @@ import javax.enterprise.context.SessionScoped;
  */
 @Named(value = "completedStudentReview")
 @SessionScoped
-public class CompletedStudentReview implements Serializable{
-    
-    private String studentName;
-    private String meetingDate;
-    private String meetingTime;
-    private String advisor;
+public class CompletedStudentReview implements Serializable {
+
+    private String studentFirstName;
+    private String studentLastName;
+    private Date meetingDate;
     private String studentEmail;
-    
+
     @PostConstruct
-    public void init()
-    {
-        studentName = null;
+    public void init() {
+        studentFirstName = null;
+        studentLastName = null;
         meetingDate = null;
-        meetingTime = null;
-        advisor = null;    
         studentEmail = null;
     }
 
@@ -43,41 +40,28 @@ public class CompletedStudentReview implements Serializable{
         this.studentEmail = studentEmail;
     }
 
-    
-    public String getStudentName() {
-        return studentName;
+    public String getStudentFirstName() {
+        return studentFirstName;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setStudentFirstName(String studentFirstName) {
+        this.studentFirstName = studentFirstName;
     }
 
-    public String getMeetingDate() {
+    public String getStudentLastName() {
+        return studentLastName;
+    }
+
+    public void setStudentLastName(String studentLastName) {
+        this.studentLastName = studentLastName;
+    }
+
+    public Date getMeetingDate() {
         return meetingDate;
     }
 
-    public void setMeetingDate(String meetingDate) {
+    public void setMeetingDate(Date meetingDate) {
         this.meetingDate = meetingDate;
     }
 
-    public String getMeetingTime() {
-        return meetingTime;
-    }
-
-    public void setMeetingTime(String meetingTime) {
-        this.meetingTime = meetingTime;
-    }
-
-    public String getAdvisor() {
-        return advisor;
-    }
-
-    public void setAdvisor(String advisor) {
-        this.advisor = advisor;
-    }
-    
-    
-    
-    
-    
 }

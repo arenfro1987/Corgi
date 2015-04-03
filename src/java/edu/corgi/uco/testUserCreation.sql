@@ -81,16 +81,16 @@ INSERT INTO CourseOffering (courseNumber, semester, yearOffered) VALUES (4153, '
 INSERT INTO CourseOffering (courseNumber, semester, yearOffered) VALUES (4023, 'Fall',2015);
 INSERT INTO CourseOffering (courseNumber, semester, yearOffered) VALUES (4003, 'Fall',2015);
 
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2015-03-15 15:56:46",18,1);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2015-12-07 16:42:36",15,2);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2015-07-17 22:55:16",18,3);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2015-10-31 06:23:33",15,4);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2015-08-18 09:18:06",19,5);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2014-06-18 23:00:53",13,6);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2016-03-20 03:51:32",18,7);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2015-10-21 11:45:05",11,8);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2015-11-13 09:30:47",15,9);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ("2014-11-23 02:27:41",18,10);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-04-04',18,1);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-04-02',15,2);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-07-17',18,3);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-10-31',15,4);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-08-18',19,5);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2014-06-18',13,6);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2016-03-20',18,7);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-10-21',11,8);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-11-13',15,9);
+INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2014-11-23',18,10);
 
 INSERT INTO MajorCodes (userID, majorCode) VALUES (1,6100);
 INSERT INTO MajorCodes (userID, majorCode) VALUES (2,6101);
