@@ -22,7 +22,7 @@ import org.apache.commons.mail.SimpleEmail;
 @SessionScoped
 public class sendEmails implements Serializable {
 
-    public void send(String emailAddress, String studentName) throws EmailException {
+    public void send(String emailAddress, String studentFirstName, String studentLastName) throws EmailException {
         Email email = new SimpleEmail();
         email.setHostName("smtp.googlemail.com");
         email.setSmtpPort(465);
@@ -30,7 +30,7 @@ public class sendEmails implements Serializable {
         email.setSSLOnConnect(true);
         email.setFrom("ucocorgi@gmail.com");
         email.setSubject("Advisement Update");
-        email.setMsg(studentName + " your advisment has been processed and the hold on your account will be removed shortly");
+        email.setMsg(studentFirstName + " " + studentLastName + " your advisment has been processed and the hold on your account will be removed shortly");
         email.addTo(emailAddress);
         email.send();
     }
