@@ -54,7 +54,7 @@ create table Appointment(
 create table MajorCodes(
     userID integer,
     majorCode integer,
-    primary key(userID)
+    primary key(userID, majorCode)
 );
 
 create table GroupTable(
