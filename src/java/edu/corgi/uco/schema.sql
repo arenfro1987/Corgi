@@ -60,7 +60,10 @@ create table MajorCodes(
 create table GroupTable(
     userID integer,
     groupname varchar(50),
-    primary key(userID, groupname)
+    email varchar(50),
+    groupID integer not null generated always 
+        as identity (start with 1, increment by 1),
+    primary key(groupID)
 );
 
 create table Schedule(
