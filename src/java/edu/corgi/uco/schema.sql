@@ -53,17 +53,14 @@ create table Appointment(
 
 create table MajorCodes(
     userID integer,
-    majorCode integer,
+    majorCode varchar(4),
     primary key(userID, majorCode)
 );
 
 create table GroupTable(
     userID integer,
     groupname varchar(50),
-    email varchar(50),
-    groupID integer not null generated always 
-        as identity (start with 1, increment by 1),
-    primary key(groupID)
+    primary key(userID, groupname)
 );
 
 create table Schedule(
