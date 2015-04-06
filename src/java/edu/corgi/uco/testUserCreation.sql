@@ -92,17 +92,17 @@ INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-10-21',1
 INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-11-13',15,9);
 INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2014-11-23',18,10);
 
-INSERT INTO MajorCodes (userID, majorCode) VALUES (1,6100);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (2,6101);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (3,6100);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (4,6101);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (5,6100);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (6,6101);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (7,6101);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (8,6100);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (9,6101);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (10,6101);
-INSERT INTO MajorCodes (userID, majorCode) VALUES (1,6101);
+INSERT INTO MajorCodes (userID, majorCode) VALUES (1,'6100');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (2,'6101');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (3,'6100');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (4,'6101');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (5,'6100');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (6,'6101');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (7,'6101');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (8,'6100');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (9,'6101');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (10,'6101');
+INSERT INTO MajorCodes (userID, majorCode) VALUES (11,'6101');
 
 INSERT INTO Schedule (userID, approved, holdRemoved) VALUES (1,false,false);
 INSERT INTO Schedule (userID, approved, holdRemoved) VALUES (2,false,false);
