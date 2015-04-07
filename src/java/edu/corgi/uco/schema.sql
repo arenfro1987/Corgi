@@ -53,8 +53,8 @@ create table Appointment(
 
 create table MajorCodes(
     userID integer,
-    majorCode integer,
-    primary key(userID)
+    majorCode varchar(4),
+    primary key(userID, majorCode)
 );
 
 create table GroupTable(

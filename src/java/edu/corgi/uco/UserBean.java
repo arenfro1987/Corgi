@@ -9,6 +9,14 @@ package edu.corgi.uco;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -21,9 +29,12 @@ import javax.validation.constraints.Size;
 @SessionScoped
 public class UserBean implements Serializable {
     
+    @Resource(name = "jdbc/corgiDatabase")
+    private DataSource dataSource;
+    
     @NotNull(message="Email cannot be empty.")
-    @Pattern(regexp=".+[@].+[.].+", message="A valid email of the format "
-            + "'person@domain.com' is required." )
+    @Pattern(regexp="^[a-zA-Z]+@uco\\.edu", message="A valid email of the format "
+            + "'person@uco.edu' is required." )
     private String email;
     
     @NotNull(message="Please enter your UCO ID")
@@ -44,6 +55,8 @@ public class UserBean implements Serializable {
             + "letters can be used.")
     private String lastName;
 
+    @NotNull(message="Please select a major.")
+    private String major;
 
     public String getEmail() {
         return email;
@@ -85,8 +98,85 @@ public class UserBean implements Serializable {
         this.lastName = lastName;
     }
     
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+    
     
     public UserBean() {
     }
+    
+    //adds a student user form signup to the database
+    public void add() throws SQLException {
+      
+        if (dataSource == null) {
+            throw new SQLException("DataSource is null");
+        }
+
+        Connection connection = dataSource.getConnection();
+
+        if (connection == null) {
+            throw new SQLException("Connection");
+        }
+        
+        try {
+              
+            PreparedStatement addUser = connection.prepareStatement(
+                "insert into UserTable (email, ucoID, password, firstName, lastName) values (?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
+
+
+            addUser.setString(1, email);
+            addUser.setString(2, ucoId);
+            addUser.setString(3, password);
+            addUser.setString(4, firstName);
+            addUser.setString(5, lastName);
+
+            addUser.executeUpdate();
+            
+            ResultSet results = addUser.getGeneratedKeys();
+            
+            
+            //for whatever really fun reason it says userid is not a field
+            int id = 0;
+            while(results.next()) {
+                id = results.getInt("userID");
+            }
+            /*
+            PreparedStatement addUserToGroup = connection.prepareStatement(
+                "insert into GroupTable (userID, groupname, email) values (?, student, ?)");
+            
+            addUserToGroup.setInt(1, id);
+            addUserToGroup.setString(2, "email");
+            
+            addUserToGroup.executeUpdate();
+            
+            System.out.println("yoooooo");
+            
+            
+            PreparedStatement addMajor = connection.prepareStatement(
+                "insert into MajorCodes (userID, majorCode) values (?, ?)");
+        
+            addMajor.setInt(1, id);
+            addMajor.setString(2, "major");
+            
+            addMajor.executeUpdate();
+            System.out.println("lololol");
+                    */
+            
+        }
+        
+        finally {
+            connection.close();
+        }
+                
+                
+    }
+
+ 
     
 }
