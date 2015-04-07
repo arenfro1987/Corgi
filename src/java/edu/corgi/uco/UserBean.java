@@ -111,7 +111,7 @@ public class UserBean implements Serializable {
     }
     
     //adds a student user form signup to the database
-    public void add() throws SQLException {
+    public String add() throws SQLException {
       
         if (dataSource == null) {
             throw new SQLException("DataSource is null");
@@ -144,29 +144,24 @@ public class UserBean implements Serializable {
             //for whatever really fun reason it says userid is not a field
             int id = 0;
             while(results.next()) {
-                id = results.getInt("userID");
+                id = results.getInt(1);
             }
-            /*
+            
             PreparedStatement addUserToGroup = connection.prepareStatement(
-                "insert into GroupTable (userID, groupname, email) values (?, student, ?)");
+                "insert into GroupTable (userID, groupname, email) values (?, 'student', ?)");
             
             addUserToGroup.setInt(1, id);
-            addUserToGroup.setString(2, "email");
+            addUserToGroup.setString(2, email);
             
-            addUserToGroup.executeUpdate();
-            
-            System.out.println("yoooooo");
-            
+            addUserToGroup.executeUpdate();            
             
             PreparedStatement addMajor = connection.prepareStatement(
                 "insert into MajorCodes (userID, majorCode) values (?, ?)");
         
             addMajor.setInt(1, id);
-            addMajor.setString(2, "major");
+            addMajor.setString(2, major);
             
             addMajor.executeUpdate();
-            System.out.println("lololol");
-                    */
             
         }
         
@@ -174,7 +169,7 @@ public class UserBean implements Serializable {
             connection.close();
         }
                 
-                
+        return "thanks";     
     }
 
  
