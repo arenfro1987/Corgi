@@ -2,19 +2,19 @@
     password: ppp
 */
 
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('imperdiet.ornare@libero.com','66571717','Drew','Mercado','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('ante@loremvehicula.com','42638067','Joel','George','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('sed.est@purusmauris.org','68098644','Buckminster','Deleon','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('ullamcorper.magna@nonarcuVivamus.co.uk','81891981','Simon','Campos','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('turpis@mauris.co.uk','92706320','Elliott','Glenn','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('adipiscing@odiovel.ca','31713272','Clarke','Shaw','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('elit.elit@netusetmalesuada.com','11604103','Axel','Porter','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('Morbi.neque@sociis.edu','41915485','Kenyon','Gamble','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('mi.Duis.risus@urnaconvallis.org','26275653','Kuame','Huber','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('faucibus.lectus.a@malesuadaaugueut.net','90200795','Gregory','Ayala','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('student@test.com','12345678','Kenyon','Gamble','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('admin@test.com','87654321','Kuame','Huber','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('secretary@test.com','15935746','Gregory','Ayala','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('imperdiet.ornare@libero.com','66571717','Drew','Mercado','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6100');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('ante@loremvehicula.com','42638067','Joel','George','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6110');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('sed.est@purusmauris.org','68098644','Buckminster','Deleon','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6101');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('ullamcorper.magna@nonarcuVivamus.co.uk','81891981','Simon','Campos','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6660');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('turpis@mauris.co.uk','92706320','Elliott','Glenn','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6110');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('adipiscing@odiovel.ca','31713272','Clarke','Shaw','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6100');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('elit.elit@netusetmalesuada.com','11604103','Axel','Porter','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6102');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('Morbi.neque@sociis.edu','41915485','Kenyon','Gamble','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6100');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('mi.Duis.risus@urnaconvallis.org','26275653','Kuame','Huber','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6101');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('faucibus.lectus.a@malesuadaaugueut.net','90200795','Gregory','Ayala','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6101');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('student@test.com','12345678','Kenyon','Gamble','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6110');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('admin@test.com','87654321','Kuame','Huber','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password, major) VALUES ('secretary@test.com','15935746','Gregory','Ayala','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', '6101');
 
 
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('imperdiet.ornare@libero.com','student',1);
