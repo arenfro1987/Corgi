@@ -1,6 +1,5 @@
-drop table Course;
+
 drop table Appointment;
-drop table UserTable;
 drop table MajorCodes;
 drop table GroupTable;
 drop table Schedule;
@@ -10,6 +9,8 @@ drop table IsPreReq;
 drop table IsCoReq;
 drop table MajorReq;
 drop table CourseOffering;
+drop table Course;
+drop table UserTable;
 
 create table UserTable (
     userID integer not null generated always 
@@ -76,9 +77,9 @@ create table Schedule(
 );
 
 create table CourseScheduleLinkage(
-    userID integer,
+    scheduleID integer,
     courseID integer,
-    primary key(userID, courseID)
+    primary key(scheduleID, courseID)
 );
 
 create table TakenCourses(
