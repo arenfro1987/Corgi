@@ -17,6 +17,8 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -34,7 +36,7 @@ public class UserBean implements Serializable {
     private DataSource dataSource;
     
     @NotNull(message="Email cannot be empty.")
-    @Pattern(regexp="^[a-zA-Z]+@uco\\.edu", message="A valid email of the format "
+    @Pattern(regexp="^[a-zA-Z0-9]+@uco\\.edu", message="A valid email of the format "
             + "'person@uco.edu' is required." )
     private String email;
     
@@ -143,8 +145,9 @@ public class UserBean implements Serializable {
             addUserToGroup.executeUpdate(); 
         } catch (SQLException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
-            return "Failed, Please try again.";
+            FacesContext.getCurrentInstance().addMessage(email, new FacesMessage("Something went wrong. Please try again later."));
         }
+        FacesContext.getCurrentInstance().addMessage(email, new FacesMessage("Success"));
         return null;
     }
     
