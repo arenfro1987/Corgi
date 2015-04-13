@@ -17,7 +17,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -55,6 +54,7 @@ public class Secretary implements Serializable
     public void setStudents(List<CompletedStudentReview> Students) {
         this.Students = Students;
     }
+    
 
     public List<CompletedStudentReview> getStudentList() throws SQLException {
         
