@@ -14,7 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
@@ -108,6 +109,43 @@ public class UserBean implements Serializable {
     
     
     public UserBean() {
+    }
+    
+    public String addSecretary() {
+        try(Connection conn = dataSource.getConnection()){
+            PreparedStatement addUser = conn.prepareStatement(
+                    "insert into UserTable (email, password, firstname, lastname) values (?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
+
+
+            addUser.setString(1, email);
+            addUser.setString(2, SHA256Encrypt.encrypt("temp1234"));
+            addUser.setString(3, firstName);
+            addUser.setString(4, lastName);
+
+            addUser.executeUpdate();
+            
+            ResultSet results = addUser.getGeneratedKeys();
+            
+            
+            //for whatever really fun reason it says userid is not a field
+            int id = 0;
+            while(results.next()) {
+                id = results.getInt(1);
+            }
+            
+            PreparedStatement addUserToGroup = conn.prepareStatement(
+                "insert into GroupTable (userID, groupname, email) values (?, 'secretary', ?)");
+            
+            addUserToGroup.setInt(1, id);
+            addUserToGroup.setString(2, email);
+            
+            addUserToGroup.executeUpdate(); 
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+            return "Failed, Please try again.";
+        }
+        return null;
     }
     
     //adds a student user form signup to the database
