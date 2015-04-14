@@ -5,7 +5,11 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -43,12 +47,35 @@ public class CalendarView implements Serializable {
     @PostConstruct
     public void init() {
         eventModel = new DefaultScheduleModel();
-//        eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
-//        eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(), today6Pm()));
-//        eventModel.addEvent(new DefaultScheduleEvent("Breakfast at Tiffanys", nextDay9Am(), nextDay11Am()));
-//        eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));
         
         try(Connection conn = ds.getConnection()) {
+            String s = "select * from appointment left outer join usertable on appointment.userid = usertable.userid";
+            
+            PreparedStatement appointmentGetter = conn.prepareStatement(s);
+            
+            ResultSet rs = appointmentGetter.executeQuery();
+            
+            while(rs.next()){
+                Timestamp sd = rs.getTimestamp("startdate");
+                Timestamp ed = rs.getTimestamp("enddate");
+                int id = rs.getInt("appointmentid");
+                
+                AppointmentEvent ae = new AppointmentEvent("Open Appointment", sd, ed, id);
+                
+                String userid = rs.getString("userid");
+                if(!rs.wasNull()) {
+                    Student stud = new Student();
+                    stud.setId(rs.getString("ucoid"));
+                    stud.setFirstName(rs.getString("firstname"));
+                    stud.setLastName(rs.getString("lastname"));
+                    stud.setEmail(rs.getString("email"));
+                    
+                    ae.setStudent(stud);
+                    ae.setTitle(stud.getFirstName() + " " + stud.getLastName());
+                }
+                
+                eventModel.addEvent(ae);
+            }
             
         } catch (SQLException ex) {
             Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);

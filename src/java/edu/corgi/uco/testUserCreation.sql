@@ -16,6 +16,60 @@ INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('student
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('admin@test.com','87654321','Kuame','Huber','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('secretary@test.com','15935746','Gregory','Ayala','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 
+/*
+    Extra students for test
+*/
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('derek@techiedudes.com','66571717','Derek','Mercado','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('test@loremvehicula.com','42638067','Joel','George','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('testest.est@purusmauris.org','68098644','Buckminster','Deleon','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('nonono.magna@nonarcuVivamus.co.uk','81891981','Simon','Campos','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('testsfake@mauris.co.uk','92706320','Elliott','Glenn','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('gakasgah@odiovel.ca','31713272','Clarke','Shaw','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('derek@techdudes.com','student',1);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('test@loremvehicula.com','student', 15);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('testest.est@purusmauris.org','student',16);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('nonono.magna@nonarcuVivamus.co.uk','student',17);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('testsfake@mauris.co.uk','student',18);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('gakasgah@odiovel.ca','student',19);
+
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('no.ornare@libero.com','66571717','Drew','Mercado','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('asdfa@loremvehicula.com','42638067','Joel','George','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('fdsaf.est@purusmauris.org','68098644','Buckminster','Deleon','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('nononono.magna@nonarcuVivamus.co.uk','81891981','Simon','Campos','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('ffdd@mauris.co.uk','92706320','Elliott','Glenn','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('ertert@odiovel.ca','31713272','Clarke','Shaw','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('no.ornare@libero.com','student',20);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('asdfa@loremvehicula.com','student', 21);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('fdsaf.est@purusmauris.org','student',22);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('nononono.magna@nonarcuVivamus.co.uk','student',23);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('ffdd@mauris.co.uk','student',24);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('ertert@odiovel.ca','student',25);
+
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('qsqs.ornare@libero.com','66571717','Drew','Mercado','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('qwqwqwqw@loremvehicula.com','42638067','Joel','George','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('qeqeqeqe.est@purusmauris.org','68098644','Buckminster','Deleon','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('qrqrqrqr.magna@nonarcuVivamus.co.uk','81891981','Simon','Campos','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('qtqtqtqt@mauris.co.uk','92706320','Elliott','Glenn','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('wqwqwqwq@odiovel.ca','31713272','Clarke','Shaw','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('qsqs.ornare@libero.com','student',26);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('qwqwqwqw@loremvehicula.com','student', 27);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('qeqeqeqe.est@purusmauris.org','student',28);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('qrqrqrqr.magna@nonarcuVivamus.co.uk','student',29);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('qtqtqtqt.co.uk','student',30);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('wqwqwqwq@odiovel.ca','student',31);
+
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('gggg.ornare@libero.com','66571717','Drew','Mercado','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('aagagsdfa@loremvehicula.com','42638067','Joel','George','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('rrr.est@purusmauris.org','68098644','Buckminster','Deleon','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('nnn.magna@nonarcuVivamus.co.uk','81891981','Simon','Campos','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('het@mauris.co.uk','92706320','Elliott','Glenn','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('qwer@odiovel.ca','31713272','Clarke','Shaw','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('gggg.ornare@libero.com','student',32);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('aagagsdfa@loremvehicula.com','student', 33);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('rrr.est@purusmauris.org','student',34);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('nnn.magna@nonarcuVivamus.co.uk','student',35);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('het@mauris.co.uk','student',36);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('qwer@odiovel.ca','student',37);
 
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('imperdiet.ornare@libero.com','student',1);
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('ante@loremvehicula.com','student',2);
@@ -81,16 +135,15 @@ INSERT INTO CourseOffering (courseNumber, semester, yearOffered) VALUES (4153, '
 INSERT INTO CourseOffering (courseNumber, semester, yearOffered) VALUES (4023, 'Fall',2015);
 INSERT INTO CourseOffering (courseNumber, semester, yearOffered) VALUES (4003, 'Fall',2015);
 
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-04-04',18,1);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-04-02',15,2);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-07-17',18,3);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-10-31',15,4);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-08-18',19,5);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2014-06-18',13,6);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2016-03-20',18,7);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-10-21',11,8);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2015-11-13',15,9);
-INSERT INTO Appointment (appointmentDate,duration,userID) VALUES ('2014-11-23',18,10);
+
+INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-23 13:00:00', '2015-04-23 13:15:00');
+INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-23 13:15:00', '2015-04-23 13:30:00');
+INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-23 13:15:00', '2015-04-23 13:30:00');
+INSERT INTO Appointment (startdate, enddate, userid) VALUES ('2015-04-23 14:30:00', '2015-04-23 14:45:00', 3);
+INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-24 13:00:00', '2015-04-24 13:15:00');
+INSERT INTO Appointment (startdate, enddate, userid) VALUES ('2015-04-24 13:00:00', '2015-04-24 13:15:00', 4);
+INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-24 13:30:00', '2015-04-24 13:45:00');
+
 
 INSERT INTO MajorCodes (userID, majorCode) VALUES (1,'6100');
 INSERT INTO MajorCodes (userID, majorCode) VALUES (2,'6101');
@@ -147,7 +200,6 @@ INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (7,16);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (8,17);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (8,12);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (8,19);
-INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (8,17);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (9,16);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (9,15);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (9,14);
@@ -155,7 +207,6 @@ INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (9,13);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (10,16);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (10,14);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (10,13);
-INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (10,12);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (10,12);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (11,16);
 INSERT INTO CourseScheduleLinkage (scheduleID, courseID) VALUES (11,15);

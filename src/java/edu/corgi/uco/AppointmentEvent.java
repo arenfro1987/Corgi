@@ -5,6 +5,7 @@
  */
 package edu.corgi.uco;
 
+import java.util.Date;
 import org.primefaces.model.DefaultScheduleEvent;
 
 /**
@@ -13,6 +14,14 @@ import org.primefaces.model.DefaultScheduleEvent;
  */
 public class AppointmentEvent extends DefaultScheduleEvent{
     private Student student;
+    private int appointmentID;
     
+    public AppointmentEvent(String title, Date start, Date end, int id){
+        super(title, start, end);
+        this.appointmentID = id;
+    } 
     
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 }

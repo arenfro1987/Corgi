@@ -46,8 +46,8 @@ create table CourseOffering (
 create table Appointment(
     appointmentID integer not null generated always
         as identity(start with 1, increment by 1),
-    appointmentDate Date not null,
-    duration integer,
+    startdate timestamp not null,
+    enddate timestamp not null,
     userID integer,
     primary key(appointmentID)
 );
