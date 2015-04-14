@@ -12,7 +12,9 @@
 
 
                     <h1 style="margin-top: 0">Appointment Schedule</h1>
-                    <p:schedule id="schedule" value="#{calendarView.eventModel}" widgetVar="myschedule" timeZone="GMT+2">
+                    <p:schedule class="col-sm-12" id="schedule" value="#{calendarView.eventModel}" 
+                                widgetVar="myschedule" 
+                                timeZone="GMT-6">
 
                         <p:ajax event="dateSelect" listener="#{calendarView.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
                         <p:ajax event="eventSelect" listener="#{calendarView.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
