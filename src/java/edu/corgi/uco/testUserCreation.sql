@@ -71,7 +71,7 @@ INSERT INTO GroupTable (email, groupName, userID) VALUES ('nnn.magna@nonarcuViva
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('het@mauris.co.uk','student',36);
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('qwer@odiovel.ca','student',37);
 
-INSERT INTO GroupTable (email, groupName, userID) VALUES ('imperdiet.ornare@libero.com','student',1);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('derek@techdudes.com','student',1);
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('ante@loremvehicula.com','student',2);
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('sed.est@purusmauris.org','student',3);
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('ullamcorper.magna@nonarcuVivamus.co.uk','student',4);
