@@ -17,7 +17,7 @@ INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('admin@t
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('secretary@test.com','15935746','Gregory','Ayala','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 
 
-INSERT INTO GroupTable (email, groupName, userID) VALUES ('imperdiet.ornare@libero.com','student',1);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('derek@techdudes.com','student',1);
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('ante@loremvehicula.com','student',2);
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('sed.est@purusmauris.org','student',3);
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('ullamcorper.magna@nonarcuVivamus.co.uk','student',4);
