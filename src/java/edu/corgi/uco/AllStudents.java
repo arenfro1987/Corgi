@@ -30,7 +30,7 @@ public class AllStudents implements Serializable{
         ArrayList<Student> sList = new ArrayList<>();
         
         try(Connection conn = ds.getConnection()) {
-            String select = "select ucoid, firstname, lastname, major, email from "
+            String select = "select ucoid, firstname, lastname, email from "
                     + "usertable natural join grouptable where groupname = 'student'";
             
             PreparedStatement statement = conn.prepareStatement(select);
@@ -43,7 +43,6 @@ public class AllStudents implements Serializable{
                 s.setEmail(rs.getString("email"));
                 s.setFirstName(rs.getString("firstname"));
                 s.setLastName(rs.getString("lastname"));
-                s.setMajor(rs.getString("major"));
                 sList.add(s);
             }
         } catch (SQLException ex) {
