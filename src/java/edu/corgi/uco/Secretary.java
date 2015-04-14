@@ -5,10 +5,11 @@
  */
 package edu.corgi.uco;
 
-
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,10 +18,16 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.inject.Named;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -30,21 +37,20 @@ import org.primefaces.model.StreamedContent;
  */
 @Named(value = "secretary")
 @SessionScoped
-public class Secretary implements Serializable  
-{
+public class Secretary implements Serializable {
+
     private List<CompletedStudentReview> Students;
     private StreamedContent file;
-    
-    @Resource(name = "jdbc/database2")
+
+    @Resource(name = "jdbc/corgiDatabase")
     private DataSource ds;
-    
+
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         Students = new ArrayList<>();
-        InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Enroll.docx");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Enroll.docx");
         file = new DefaultStreamedContent(stream, "application/docx", "Enroll.docx");
-        
+
     }
 
     public List<CompletedStudentReview> getStudents() {
@@ -54,52 +60,96 @@ public class Secretary implements Serializable
     public void setStudents(List<CompletedStudentReview> Students) {
         this.Students = Students;
     }
-    
+
+    public void downloadReportData() throws IOException {
+        if (!Students.isEmpty()) {
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet sheet = workbook.createSheet();
+            HSSFRow row0 = sheet.createRow(0);
+            HSSFCell cell0 = row0.createCell(0);
+            cell0.setCellValue("First Name");
+            HSSFCell cell01 = row0.createCell(1);
+            cell01.setCellValue("Last Name");
+            HSSFCell cell02 = row0.createCell(2);
+            cell02.setCellValue("Email");
+            HSSFCell cell03 = row0.createCell(3);
+            cell03.setCellValue("UCO ID");
+            
+            for(int x = 0 ; x < Students.size() ; x++)
+            {
+               HSSFRow row = sheet.createRow(x+1);
+               HSSFCell cell = row.createCell(0);
+               cell.setCellValue(Students.get(x).getStudentFirstName());
+               HSSFCell cell1 = row.createCell(1);
+               cell1.setCellValue(Students.get(x).getStudentLastName()); 
+               HSSFCell cell2 = row.createCell(2);
+               cell2.setCellValue(Students.get(x).getStudentEmail()); 
+               HSSFCell cell3 = row.createCell(3);
+               cell3.setCellValue(Students.get(x).getUcoID()); 
+            }
+            
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = facesContext.getExternalContext();
+            externalContext.setResponseContentType("application/vnd.ms-excel");
+            externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"report.xls\"");
+
+            workbook.write(externalContext.getResponseOutputStream());
+            facesContext.responseComplete();
+
+        }
+
+    }
 
     public List<CompletedStudentReview> getStudentList() throws SQLException {
-        
-        try 
-        {
+        System.out.print("hit get student");
+        try {
             if (Students.size() == 0) {
-            if (ds == null) {
-                throw new SQLException("ds is null; Can't get data source");
-            }
-
-            Connection conn = ds.getConnection();
-
-            if (conn == null) {
-                throw new SQLException("conn is null; Can't get db connection");
-            }
-
-            try {
-                PreparedStatement ps = conn.prepareStatement(
-                        "select * from Schedule join UserTable on Schedule.userID = UserTable.userID"
-                                + " join Appointment on Schedule.userID = Appointment.userID "
-                                + "where approved = true and holdRemoved = false"
-                );
-
-                ResultSet result = ps.executeQuery();
-
-                while (result.next()) {
-                    CompletedStudentReview b = new CompletedStudentReview();
-                    b.setStudentFirstName(result.getString("FIRSTNAME"));
-                    b.setStudentLastName(result.getString("LASTNAME"));
-                    b.setMeetingDate(result.getDate("appointmentDate"));
-                    b.setStudentEmail(result.getString("email"));
-                    Students.add(b);
+                if (ds == null) {
+                    throw new SQLException("ds is null; Can't get data source");
                 }
-                return Students;
-            } finally {
-                conn.close();
+
+                Connection conn = ds.getConnection();
+
+                if (conn == null) {
+                    throw new SQLException("conn is null; Can't get db connection");
+                }
+
+                try {
+                    /*
+                     DatabaseMetaData md = conn.getMetaData();
+                     ResultSet rs = md.getTables(null, null, "%", null);
+                     while (rs.next()) {
+                     System.out.println(rs.getString(3));
+                     }
+                     */
+                    System.out.print("trying statement");
+                    PreparedStatement ps = conn.prepareStatement(
+                            "select * from APP.SCHEDULE join UserTable on APP.SCHEDULE.userID = UserTable.userID"
+                            + " join Appointment on APP.SCHEDULE.userID = Appointment.userID "
+                            + "where approved = true and holdRemoved = false"
+                    );
+                    System.out.print("made query");
+                    ResultSet result = ps.executeQuery();
+                    System.out.print("execute query");
+                    while (result.next()) {
+                        CompletedStudentReview b = new CompletedStudentReview();
+                        b.setStudentFirstName(result.getString("FIRSTNAME"));
+                        b.setStudentLastName(result.getString("LASTNAME"));
+                        b.setMeetingDate(result.getDate("appointmentDate"));
+                        b.setStudentEmail(result.getString("email"));
+                        b.setUcoID(result.getString("UCOID"));
+                        Students.add(b);
+                    }
+                    return Students;
+                } finally {
+                    conn.close();
+                }
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-            
-        }
-        catch(Exception e)
-        {
-            
-        }
-        
+
         return Students;
     }
 
@@ -110,8 +160,5 @@ public class Secretary implements Serializable
     public void setFile(StreamedContent file) {
         this.file = file;
     }
-    
-    
-    
-    
+
 }
