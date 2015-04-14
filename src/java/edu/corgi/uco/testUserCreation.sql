@@ -2,7 +2,7 @@
     password: ppp
 */
 
-INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('imperdiet.ornare@libero.com','66571717','Drew','Mercado','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('derek@techdudes.com','66571717','Derek','Renfro','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('ante@loremvehicula.com','42638067','Joel','George','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('sed.est@purusmauris.org','68098644','Buckminster','Deleon','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('ullamcorper.magna@nonarcuVivamus.co.uk','81891981','Simon','Campos','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');

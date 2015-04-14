@@ -23,6 +23,7 @@ public class CompletedStudentReview implements Serializable {
     private String studentLastName;
     private Date meetingDate;
     private String studentEmail;
+    private String ucoID;
 
     @PostConstruct
     public void init() {
@@ -30,8 +31,17 @@ public class CompletedStudentReview implements Serializable {
         studentLastName = null;
         meetingDate = null;
         studentEmail = null;
+        ucoID = null;
     }
 
+    public String getUcoID() {
+        return ucoID;
+    }
+
+    public void setUcoID(String ucoID) {
+        this.ucoID = ucoID;
+    }
+    
     public String getStudentEmail() {
         return studentEmail;
     }
