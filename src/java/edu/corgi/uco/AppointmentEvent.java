@@ -29,4 +29,10 @@ public class AppointmentEvent extends DefaultScheduleEvent{
     public void setStudent(Student student) {
         this.student = student;
     }
+
+    public int getAppointmentID() {
+        return appointmentID;
+    }
+    
 }
+

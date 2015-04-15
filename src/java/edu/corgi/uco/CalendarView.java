@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,10 +24,7 @@ import javax.sql.DataSource;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
-import org.primefaces.model.LazyScheduleModel;
-import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 
@@ -41,7 +37,7 @@ public class CalendarView implements Serializable {
 
     private ScheduleModel eventModel;
  
-    private ScheduleEvent event = new AppointmentEvent();
+    private AppointmentEvent event = new AppointmentEvent();
     
  
     @PostConstruct
@@ -104,11 +100,11 @@ public class CalendarView implements Serializable {
         return calendar;
     }
      
-    public ScheduleEvent getEvent() {
+    public AppointmentEvent getEvent() {
         return event;
     }
  
-    public void setEvent(ScheduleEvent event) {
+    public void setEvent(AppointmentEvent event) {
         this.event = event;
     }
      
@@ -116,6 +112,7 @@ public class CalendarView implements Serializable {
         if(event.getId() == null){
             
             try(Connection conn = ds.getConnection()){
+                event.setTitle("Open Appointment");
                 
                 PreparedStatement add = conn.prepareStatement(
                         "insert into appointment(startdate, enddate) values(?, ?)", 
@@ -132,23 +129,50 @@ public class CalendarView implements Serializable {
                 
                 add.execute();
             
+                eventModel.addEvent(event);
             } catch (SQLException ex) {
             Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);
             }
-            eventModel.addEvent(event);
         }
-        else
-            eventModel.updateEvent(event);
-         
-        event = new DefaultScheduleEvent();
+        else {
+            try(Connection conn = ds.getConnection()) {
+                
+                String s = "update appointment set startdate = ?, enddate = ? "
+                        + "where id = ?";
+                
+                PreparedStatement update = 
+                        conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+                
+                Calendar c = Calendar.getInstance();
+                c.setTime(event.getStartDate());
+                Timestamp sd = new Timestamp(c.getTime().getTime());
+                update.setTimestamp(1, sd);
+                
+                c.setTime(event.getStartDate());
+                Timestamp ed = new Timestamp(c.getTime().getTime());
+                update.setTimestamp(2, ed);
+                
+                update.setInt(3, event.getAppointmentID());
+                
+                update.executeUpdate();
+                eventModel.updateEvent(event);
+                
+            } catch (SQLException ex) {
+            Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            
+
+            
+        event = new AppointmentEvent();
     }
      
     public void onEventSelect(SelectEvent selectEvent) {
-        event = (ScheduleEvent) selectEvent.getObject();
+        event = (AppointmentEvent) selectEvent.getObject();
     }
      
     public void onDateSelect(SelectEvent selectEvent) {
-        event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+        event = new AppointmentEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject(), 0);
     }
      
     public void onEventMove(ScheduleEntryMoveEvent event) {
