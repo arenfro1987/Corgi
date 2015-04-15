@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -39,10 +40,9 @@ public class CalendarView implements Serializable {
     private DataSource ds;
 
     private ScheduleModel eventModel;
-     
-    private ScheduleModel lazyEventModel;
  
-    private ScheduleEvent event = new DefaultScheduleEvent();
+    private ScheduleEvent event = new AppointmentEvent();
+    
  
     @PostConstruct
     public void init() {
@@ -81,26 +81,8 @@ public class CalendarView implements Serializable {
             Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);
         }
          
-        lazyEventModel = new LazyScheduleModel() {
-             
-            @Override
-            public void loadEvents(Date start, Date end) {
-                Date random = getRandomDate(start);
-                addEvent(new DefaultScheduleEvent("Lazy Event 1", random, random));
-                 
-                random = getRandomDate(start);
-                addEvent(new DefaultScheduleEvent("Lazy Event 2", random, random));
-            }   
-        };
     }
      
-    public Date getRandomDate(Date base) {
-        Calendar date = Calendar.getInstance();
-        date.setTime(base);
-        date.add(Calendar.DATE, ((int) (Math.random()*30)) + 1);    //set random day of month
-         
-        return date.getTime();
-    }
      
     public Date getInitialDate() {
         Calendar calendar = Calendar.getInstance();
@@ -113,24 +95,13 @@ public class CalendarView implements Serializable {
         return eventModel;
     }
      
-    public ScheduleModel getLazyEventModel() {
-        return lazyEventModel;
-    }
+
  
     private Calendar today() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
  
         return calendar;
-    }
-     
-    private Date previousDay8Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 8);
-         
-        return t.getTime();
     }
      
     public ScheduleEvent getEvent() {
@@ -142,8 +113,30 @@ public class CalendarView implements Serializable {
     }
      
     public void addEvent(ActionEvent actionEvent) {
-        if(event.getId() == null)
+        if(event.getId() == null){
+            
+            try(Connection conn = ds.getConnection()){
+                
+                PreparedStatement add = conn.prepareStatement(
+                        "insert into appointment(startdate, enddate) values(?, ?)", 
+                        Statement.RETURN_GENERATED_KEYS);
+                
+                Calendar c = Calendar.getInstance();
+                c.setTime(event.getStartDate());
+                Timestamp sd = new Timestamp(c.getTime().getTime());
+                add.setTimestamp(1, sd);
+
+                c.setTime(event.getEndDate());
+                Timestamp ed = new Timestamp(c.getTime().getTime());
+                add.setTimestamp(2, ed);
+                
+                add.execute();
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);
+            }
             eventModel.addEvent(event);
+        }
         else
             eventModel.updateEvent(event);
          

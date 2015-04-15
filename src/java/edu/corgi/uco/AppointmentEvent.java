@@ -20,6 +20,11 @@ public class AppointmentEvent extends DefaultScheduleEvent{
         super(title, start, end);
         this.appointmentID = id;
     } 
+
+    AppointmentEvent() {
+        super();
+        appointmentID = 0;
+    }
     
     public void setStudent(Student student) {
         this.student = student;
