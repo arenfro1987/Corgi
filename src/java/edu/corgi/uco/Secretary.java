@@ -142,7 +142,7 @@ public class Secretary implements Serializable {
                         b.setMeetingDate(result.getDate("appointmentDate"));
                         b.setStudentEmail(result.getString("email"));
                         b.setUcoID(result.getString("UCOID"));
-                        b.setMeetingDate(result.getDate("APPOINTMENTDATE"));
+                        b.setMeetingDate(result.getDate("startdate"));
                         Students.add(b);
                     }
                     return Students;
