@@ -5,17 +5,43 @@
  */
 package edu.corgi.uco;
 
+import javax.annotation.PostConstruct;
+
 /**
  *
  * @author vdpotvin
  */
 public class Student {
+    private int tableID;
     private String id;
     private String firstName;
     private String lastName;
     private String major;
     private String email;
+    private String password;
+    
+     @PostConstruct
+    public void init() {
+        password = "";
+    }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    
+    public int getTableID() {
+        return tableID;
+    }
+
+    public void setTableID(int tableID) {
+        this.tableID = tableID;
+    }
+   
     public String getId() {
         return id;
     }
