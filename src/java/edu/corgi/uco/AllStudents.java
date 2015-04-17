@@ -97,6 +97,43 @@ public class AllStudents implements Serializable {
         }
     }
 
+    
+    public void deleteStudent(Student deleteStudent) {
+        try {
+
+            if (ds == null) {
+                throw new SQLException("ds is null; Can't get data source");
+            }
+
+            Connection conn = ds.getConnection();
+
+            if (conn == null) {
+                throw new SQLException("conn is null; Can't get db connection");
+            }
+
+            try {
+                
+
+                    PreparedStatement ps = conn.prepareStatement(
+                            "delete from usertable where userid = ?"
+                    );                  
+                    ps.setInt(1, deleteStudent.getTableID());
+                    ps.execute();
+
+                PreparedStatement ps2 = conn.prepareStatement(
+                        "delete from grouptable where userid = ?"
+                );
+                ps2.setInt(1, deleteStudent.getTableID());
+                ps2.execute();
+
+            } finally {
+                conn.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public List<Student> getAllStudents() {
         ArrayList<Student> sList = new ArrayList<>();
 

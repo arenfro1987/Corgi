@@ -94,6 +94,7 @@
 
                         </p:panelGrid>
                         <p:commandButton value="Submit" update="@all" action="#{allStudents.updateStudent(allStudents.selectedStudent)}"/>
+                        <p:commandButton value="Delete" update="@all" action="#{allStudents.deleteStudent(allStudents.selectedStudent)}"/>
                     </p:outputPanel>
                 </p:dialog>
             </h:form>
