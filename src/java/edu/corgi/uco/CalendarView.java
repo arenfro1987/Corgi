@@ -45,7 +45,7 @@ public class CalendarView implements Serializable {
         eventModel = new DefaultScheduleModel();
         
         try(Connection conn = ds.getConnection()) {
-            String s = "select * from appointment left outer join usertable on appointment.userid = usertable.userid";
+            String s = "select * from appointment";
             
             PreparedStatement appointmentGetter = conn.prepareStatement(s);
             
@@ -55,19 +55,37 @@ public class CalendarView implements Serializable {
                 Timestamp sd = rs.getTimestamp("startdate");
                 Timestamp ed = rs.getTimestamp("enddate");
                 int id = rs.getInt("appointmentid");
+                int slots = rs.getInt("slots");
                 
                 AppointmentEvent ae = new AppointmentEvent("Open Appointment", sd, ed, id);
+                ae.setSlots(slots);
                 
-                String userid = rs.getString("userid");
-                if(!rs.wasNull()) {
-                    Student stud = new Student();
-                    stud.setId(rs.getString("ucoid"));
-                    stud.setFirstName(rs.getString("firstname"));
-                    stud.setLastName(rs.getString("lastname"));
-                    stud.setEmail(rs.getString("email"));
+                String s2 = 
+                        "select * from appointment_slots where appointmentid=?";
+                PreparedStatement getSlots = 
+                        conn.prepareStatement(s2, Statement.RETURN_GENERATED_KEYS);
+                getSlots.setInt(1, id);
+                
+                ResultSet rsSlot = getSlots.executeQuery();
+                
+                while(rsSlot.next()){
+                    int uid = rsSlot.getInt("userid");
+                    if(!rsSlot.wasNull()){
+                        String studsql = "select * from usertable where userid =?";
+                        PreparedStatement getStudent = 
+                                conn.prepareStatement(studsql, Statement.RETURN_GENERATED_KEYS);
+                        getStudent.setInt(1, uid);
+                        ResultSet rsStud = getStudent.executeQuery();
+                        
+                        Student stud = new Student();
+                        stud.setId(rs.getString("ucoid"));
+                        stud.setFirstName(rs.getString("firstname"));
+                        stud.setLastName(rs.getString("lastname"));
+                        stud.setEmail(rs.getString("email"));
+                        ae.addStudent(stud);
+                        if(ae.getOpenSlots() == 0) ae.setTitle("Full Appointment");
+                    }
                     
-                    ae.setStudent(stud);
-                    ae.setTitle(stud.getFirstName() + " " + stud.getLastName());
                 }
                 
                 eventModel.addEvent(ae);
@@ -115,7 +133,7 @@ public class CalendarView implements Serializable {
                 event.setTitle("Open Appointment");
                 
                 PreparedStatement add = conn.prepareStatement(
-                        "insert into appointment(startdate, enddate) values(?, ?)", 
+                        "insert into appointment(startdate, enddate, slots) values(?, ?, ?) ", 
                         Statement.RETURN_GENERATED_KEYS);
                 
                 Calendar c = Calendar.getInstance();
@@ -127,7 +145,27 @@ public class CalendarView implements Serializable {
                 Timestamp ed = new Timestamp(c.getTime().getTime());
                 add.setTimestamp(2, ed);
                 
+                add.setInt(3, event.getSlots());
+                
                 add.execute();
+                
+                ResultSet rid = add.getGeneratedKeys();
+                int id = 0;
+                if(rid.next()){
+                    id = rid.getInt(1);
+                }
+                
+                for(int i=1; i <= event.getSlots(); i++){
+                    PreparedStatement addslot = conn.prepareStatement(
+                            "insert into appointment_slots(appointmentid) values(?)",
+                            Statement.RETURN_GENERATED_KEYS
+                    );
+                    
+                    addslot.setInt(1, id);
+                    
+                    addslot.execute();
+                    
+                }
             
                 eventModel.addEvent(event);
             } catch (SQLException ex) {
@@ -138,7 +176,7 @@ public class CalendarView implements Serializable {
             try(Connection conn = ds.getConnection()) {
                 
                 String s = "update appointment set startdate = ?, enddate = ? "
-                        + "where id = ?";
+                        + "where appointmentid = ?";
                 
                 PreparedStatement update = 
                         conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
@@ -165,6 +203,26 @@ public class CalendarView implements Serializable {
 
             
         event = new AppointmentEvent();
+    }
+    
+    public void deleteEvent(ActionEvent actionEvent) {
+        try(Connection conn = ds.getConnection()){
+            String d = "delete from appointment_slots where appointmentid=?";
+            PreparedStatement delete = conn.prepareStatement(d, Statement.RETURN_GENERATED_KEYS);
+            delete.setInt(1, event.getAppointmentID());
+            delete.execute();
+            
+            d = "delete from appointment where appointmentid=?";
+
+            delete = conn.prepareStatement(d, Statement.RETURN_GENERATED_KEYS);
+            delete.setInt(1, event.getAppointmentID());
+            delete.execute();
+            
+            eventModel.deleteEvent(event);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
      
     public void onEventSelect(SelectEvent selectEvent) {

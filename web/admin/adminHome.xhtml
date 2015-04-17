@@ -24,9 +24,8 @@
                     </p:schedule>
 
 
-                <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
+                <p:dialog widgetVar="eventDialog" header="Appointment Details" showEffect="clip" hideEffect="clip">
                     
-                    <h2>New Open Appointment</h2>
                     <h:panelGrid id="eventDetails" columns="2">
 
                         <h:outputLabel for="from" value="From:" />
@@ -38,9 +37,12 @@
                         <p:inputMask id="to" value="#{calendarView.event.endDate}" mask="99/99/9999 99:99">
                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm" timeZone="GMT-6" />
                         </p:inputMask>
+                        <h:outputLabel for="slots" value="Slots:" />
+                        <p:inputMask id="slots" value="#{calendarView.event.slots}" mask="9" />
 
                         <p:commandButton type="reset" value="Reset" />
-                        <p:commandButton id="addButton" value="Save" action="#{calendarView.addEvent}" actionListener="#{calendarView.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                        <p:commandButton id="delete" value="Delete" actionListener="#{calendarView.deleteEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                        <p:commandButton id="addButton" value="Save" actionListener="#{calendarView.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
                     </h:panelGrid>
                 </p:dialog>    
             </h:form>

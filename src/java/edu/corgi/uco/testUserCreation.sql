@@ -136,14 +136,6 @@ INSERT INTO CourseOffering (courseNumber, semester, yearOffered) VALUES (4023, '
 INSERT INTO CourseOffering (courseNumber, semester, yearOffered) VALUES (4003, 'Fall',2015);
 
 
-INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-23 13:00:00', '2015-04-23 13:15:00');
-INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-23 13:15:00', '2015-04-23 13:30:00');
-INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-23 13:15:00', '2015-04-23 13:30:00');
-INSERT INTO Appointment (startdate, enddate, userid) VALUES ('2015-04-23 14:30:00', '2015-04-23 14:45:00', 3);
-INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-24 13:00:00', '2015-04-24 13:15:00');
-INSERT INTO Appointment (startdate, enddate, userid) VALUES ('2015-04-24 13:00:00', '2015-04-24 13:15:00', 4);
-INSERT INTO Appointment (startdate, enddate) VALUES ('2015-04-24 13:30:00', '2015-04-24 13:45:00');
-
 
 INSERT INTO MajorCodes (userID, majorCode) VALUES (1,'6100');
 INSERT INTO MajorCodes (userID, majorCode) VALUES (2,'6101');
