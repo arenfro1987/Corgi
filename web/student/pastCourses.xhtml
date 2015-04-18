@@ -8,21 +8,25 @@
         <ui:define name="content" >
 
             <h1>Past Courses</h1>
-            <p:dataTable var="pastCourses" value="#{secretary.studentList}">
+            <p:dataTable var="course" value="#{courseBean.getPastCourses()}">
                 <p:column headerText="Department">
+                    <h:outputText value="#{course.department}" />
                 </p:column>
 
                 <p:column headerText="Course Number">
+                    <h:outputText value="#{course.courseNumber}" />
                 </p:column>
 
                 <p:column headerText="Course Name">
+                    <h:outputText value="#{course.title}" />
                 </p:column>
 
-                <p:column headerText="Semester">
+                <p:column headerText="Grade">
+                    <h:outputText value="#{course.grade}" />
                 </p:column>
 
             </p:dataTable>
-            <p:commandButton value='Add A Course' />
+            <p:commandButton value='Add A Course' action="#{courseBean.add()}"/>
             
             <p:link value='Home' outcome='studentHome' />
         </ui:define>
