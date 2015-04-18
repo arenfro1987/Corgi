@@ -15,7 +15,7 @@ INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('faucibu
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('student@test.com','12345678','Kenyon','Gamble','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('admin@test.com','87654321','Kuame','Huber','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('secretary@test.com','15935746','Gregory','Ayala','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
-
+insert into takencourses (courseid, userid, grade) values (13, 11, 'A');
 /*
     Extra students for test
 */
