@@ -51,7 +51,12 @@ public class AppointmentEvent extends DefaultScheduleEvent{
     }
     
     public int getOpenSlots(){
+        if(students == null) students = new ArrayList<>();
         return slots - students.size();
+    }
+    
+    public boolean isFull() {
+        return students.size() == slots;
     }
     
 }
