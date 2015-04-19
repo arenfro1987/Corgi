@@ -1,4 +1,3 @@
-
 drop table Appointment;
 drop table MajorCodes;
 drop table GroupTable;

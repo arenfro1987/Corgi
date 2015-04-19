@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/advisor/main.xhtml">
+        <ui:define name="content" >
+            <h:form class="form-horizontal">
+                <h1>Create New Course</h1>
+
+                <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="pass">Title:</label>
+        
+                    <div class="col-md-10">
+                        <p:inputText id="title" value="#{courseBean.title}" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="pass">Course Number:</label>
+        
+                    <div class="col-md-10">
+                        <p:inputText id="number" value="#{courseBean.courseNumber}" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="pass">Hours:</label>
+        
+                    <div class="col-md-10">
+                        <p:inputText id="hours" value="#{courseBean.hours}" />
+                    </div>
+                </div>
+                <p>Note: course does not have to have a prerequisite.</p>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="pass">Prereq:</label>
+        
+                    <div class="col-md-10">
+                        <p:inputText id="prereq" value="#{courseBean.prereqCourseNumber}" />
+                    </div>
+                </div>
+                <p:outputLabel for="department" value="" />
+                <p:selectOneMenu id="department" value="#{courseBean.department}">
+                    <f:selectItem itemLabel="Select Department" itemValue="" />
+                    <f:selectItem itemLabel="CMSC" itemValue="CMSC" />
+                    <f:selectItem itemLabel="SE" itemValue="SE" />
+                </p:selectOneMenu>
+                
+                <div class="form-group">
+                 <p:commandButton class="btn btn-default col-sm-offset-1" action="#{courseBean.addCourse()}"  update="@form" value="Confirm" />
+                </div>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>
+
+

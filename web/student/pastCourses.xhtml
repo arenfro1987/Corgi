@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/student/main.xhtml">
         <ui:define name="content" >
 
@@ -26,9 +27,20 @@
                 </p:column>
 
             </p:dataTable>
-            <p:commandButton value='Add A Course' action="#{courseBean.add()}"/>
             
-            <p:link value='Home' outcome='studentHome' />
+        
+            <!--<h:form class="form-horizontal">
+                <h1>Add A Past Course</h1>  
+                
+                <p:selectOneMenu id="title" value="#{courseDatabaseRead.id}">
+                    <f:selectItem itemLabel="Select One" itemValue="#{null}" />
+                    <f:selectItem value="#{courseDatabaseRead.items}" />
+                </p:selectOneMenu>
+                <p:commandButton action="#{courseDatabaseRead.go}" value="Add"/>
+
+            </h:form>-->
+
+        
         </ui:define>
     </ui:composition>
 </html>
