@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -211,6 +212,44 @@ public class UserBean implements Serializable {
         }
                 
         return "thanks";     
+    }
+    
+    public AppointmentEvent getAppointment(){
+        String user = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        try(Connection conn = dataSource.getConnection()) {
+            PreparedStatement query = conn.prepareStatement(
+                    "select userid from usertable where email = ?",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            
+            query.setString(1, user);
+            ResultSet rs = query.executeQuery();
+            int uid = 0;
+            if(rs.next()) uid = rs.getInt(1);
+            
+            query = conn.prepareStatement(
+                    "select * from appointment natural join appointment_slots "
+                            + "where userid = ?"
+                    , Statement.RETURN_GENERATED_KEYS);
+            query.setInt(1, uid);
+            rs = query.executeQuery();
+            
+            AppointmentEvent ae;
+            Timestamp sd = null;
+            Timestamp ed = null;
+            if(rs.next()){
+                sd = rs.getTimestamp("startdate");
+                ed = rs.getTimestamp("enddate");
+            }
+            
+            ae = new AppointmentEvent("Student Event", sd, ed, 0);
+            
+            return ae;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            return null;
     }
 
  
