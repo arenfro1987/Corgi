@@ -35,6 +35,9 @@ public class CourseBean implements Serializable{
     @Size(min=4, max=4, message="Course number must be 4 numbers long.")
     private String courseNumber;
     
+    @Size(min=1, max=1, message="Enter a grade (a-f).")
+    private String grade;
+    
     private String prereqCourseNumber;
     private int hours;
     
@@ -46,7 +49,7 @@ public class CourseBean implements Serializable{
     private DataSource ds;
     
     public ArrayList<Course> getPastCourses() {
-        
+        courses.clear();
         try(Connection conn = ds.getConnection()) {
 
             PreparedStatement statement = conn.prepareStatement("select hours, dept, coursenumber, title, tc.grade from course c join takencourses tc on tc.courseid=c.courseid join usertable u on u.userid=tc.userid where u.email=?");
@@ -115,6 +118,47 @@ public class CourseBean implements Serializable{
         return null;
         
     }
+    
+    public String addPastCourse() {
+        
+        try(Connection conn = ds.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement("select courseID "
+                    + "from course where dept=? and courseNumber=?");
+            statement.setString(1, department);
+            statement.setString(2, courseNumber);
+
+            int userId = 0;
+            int courseId = 0;
+            
+            ResultSet results = statement.executeQuery();
+            while (results.next()) {
+                courseId = results.getInt("courseId");
+            }
+            
+            PreparedStatement state = conn.prepareStatement("select userid from usertable "
+                    + "where email=?");
+            state.setString(1, username);
+           
+            results = state.executeQuery();
+            
+            while (results.next()) {
+                userId = results.getInt("userid");
+            }
+            
+            PreparedStatement add = conn.prepareStatement("insert into takencourses "
+                        + "(courseid, userid, grade) values (?, ?, ?)");
+            add.setInt(1, courseId);
+            add.setInt(2, userId);
+            add.setString(3, grade);
+            
+            add.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+        return "pastCourses?faces-redirect=true";
+    }
 
     public String getTitle() {
         return title;
@@ -154,6 +198,14 @@ public class CourseBean implements Serializable{
 
     public void setPrereqCourseNumber(String prereqCourseNumber) {
         this.prereqCourseNumber = prereqCourseNumber;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
     
 }

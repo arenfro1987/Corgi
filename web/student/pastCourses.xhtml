@@ -7,8 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/student/main.xhtml">
         <ui:define name="content" >
-
-            <h1>Past Courses</h1>
+        <h1>Past Courses</h1>
             <p:dataTable var="course" value="#{courseBean.getPastCourses()}">
                 <p:column headerText="Department">
                     <h:outputText value="#{course.department}" />
@@ -25,23 +24,35 @@
                 <p:column headerText="Grade">
                     <h:outputText value="#{course.grade}" />
                 </p:column>
-
-            </p:dataTable>
-            
+        </p:dataTable>
+        <h:form class="form-horizontal">
+        <h1>Add a Course</h1>
+            <div class="form-group">
+                    <label class="control-label col-sm-2" for="pass">Course Number:</label>
         
-            <!--<h:form class="form-horizontal">
-                <h1>Add A Past Course</h1>  
-                
-                <p:selectOneMenu id="title" value="#{courseDatabaseRead.id}">
-                    <f:selectItem itemLabel="Select One" itemValue="#{null}" />
-                    <f:selectItem value="#{courseDatabaseRead.items}" />
+                    <div class="col-md-10">
+                        <p:inputText id="number" value="#{courseBean.courseNumber}" />
+                    </div>
+            </div>
+            <div class="form-group">
+                    <label class="control-label col-sm-2" for="pass">Grade:</label>
+        
+                    <div class="col-md-10">
+                        <p:inputText id="grade" value="#{courseBean.grade}" />
+                    </div>
+            </div>
+            <p:outputLabel for="department" value="" />
+                <p:selectOneMenu id="department" value="#{courseBean.department}">
+                    <f:selectItem itemLabel="Select Department" itemValue="" />
+                    <f:selectItem itemLabel="CMSC" itemValue="CMSC" />
+                    <f:selectItem itemLabel="SE" itemValue="SE" />
                 </p:selectOneMenu>
-                <p:commandButton action="#{courseDatabaseRead.go}" value="Add"/>
 
-            </h:form>-->
-
-        
+            <div class="form-group">
+                 <p:commandButton class="btn btn-default col-sm-offset-1" action="#{courseBean.addPastCourse()}"  update="@form" value="Add Course" />
+            </div>
+        </h:form>
         </ui:define>
+      
     </ui:composition>
 </html>
-
