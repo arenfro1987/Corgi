@@ -5,7 +5,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <ui:composition template="/templates/advisor/main.xhtml">
+    <ui:composition template="/templates/student/main.xhtml">
         <ui:define name="content" >
             <h:form>
                 <p:growl id="messages" showDetail="true" />
@@ -26,21 +26,21 @@
 
                 <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
                     
+                    <h:panelGrid id="eventDetails" columns="1">
                     <h2>New Open Appointment</h2>
-                    <h:panelGrid id="eventDetails" columns="2">
 
-                        <h:outputLabel for="from" value="From:" />
-                        <h:outputText id="from" value="#{calendarView.event.startDate}" >
+                    <b> From: </b> <h:outputText id="from" value="#{calendarView.event.startDate}" >
                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm" timeZone="GMT-6" />
                         </h:outputText>
 
-                        <h:outputLabel for="to" value="To:" />
-                        <h:outputText id="from" value="#{calendarView.event.endDate}" >
+                        
+                    <b>To: </b><h:outputText id="to" value="#{calendarView.event.endDate}" >
                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm" timeZone="GMT-6" />
                         </h:outputText>
+                        
+                    <h:outputText value="There are #{calendarView.event.openSlots} of #{calendarView.event.slots} slots left for this appointment." /> <br /> 
 
-                        <p:commandButton type="reset" value="Reset" />
-                        <p:commandButton id="addButton" value="Save" action="#{calendarView.addEvent}" actionListener="#{calendarView.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                        <p:commandButton id="signup" value="Sign Up"  actionListener="#{calendarView.signUp}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
                     </h:panelGrid>
                 </p:dialog>    
             </h:form>

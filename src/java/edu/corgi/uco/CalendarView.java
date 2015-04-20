@@ -76,12 +76,13 @@ public class CalendarView implements Serializable {
                                 conn.prepareStatement(studsql, Statement.RETURN_GENERATED_KEYS);
                         getStudent.setInt(1, uid);
                         ResultSet rsStud = getStudent.executeQuery();
+                        rsStud.next();
                         
                         Student stud = new Student();
-                        stud.setId(rs.getString("ucoid"));
-                        stud.setFirstName(rs.getString("firstname"));
-                        stud.setLastName(rs.getString("lastname"));
-                        stud.setEmail(rs.getString("email"));
+                        stud.setId(rsStud.getString("ucoid"));
+                        stud.setFirstName(rsStud.getString("firstname"));
+                        stud.setLastName(rsStud.getString("lastname"));
+                        stud.setEmail(rsStud.getString("email"));
                         ae.addStudent(stud);
                         if(ae.getOpenSlots() == 0) ae.setTitle("Full Appointment");
                     }
@@ -220,6 +221,51 @@ public class CalendarView implements Serializable {
             
             eventModel.deleteEvent(event);
             
+        } catch (SQLException ex) {
+            Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void signUp(ActionEvent actionEvent) {
+        
+        String user = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        
+        try(Connection conn = ds.getConnection()){
+            String s = "select * from usertable where email = ?";
+            PreparedStatement query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+            query.setString(1, user);
+            ResultSet rs = query.executeQuery();
+            
+            if(rs.next()){
+                int uid = rs.getInt("userid");
+                Student student = new Student();
+                student.setEmail(user);
+                student.setFirstName(rs.getString("firstname"));
+                student.setLastName(rs.getString("lastname"));
+                student.setId(rs.getString("ucoid"));
+                
+                s = "select * from appointment_slots where appointmentid=?";
+                query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+                query.setInt(1, event.getAppointmentID());
+                rs= query.executeQuery();
+
+                boolean found = false;
+
+                while(!found && rs.next()){
+                    int i = rs.getInt("userid");
+                    if(rs.wasNull()){
+                        i = rs.getInt("slotid");
+                        s = "update appointment_slots set userid = ? where appointmentid = ?";
+                        query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+                        query.setInt(1, uid);
+                        query.setInt(2, event.getAppointmentID());
+                        query.execute();
+                        found = true;
+                    }
+
+                    event.addStudent(student);
+                }
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);
         }
