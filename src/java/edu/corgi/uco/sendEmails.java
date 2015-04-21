@@ -153,5 +153,29 @@ public class sendEmails implements Serializable {
                 Logger.getLogger(sendEmails.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    
+    public void sendConfirmation(String email2,String firstName,String lastName,int token,int id) throws EmailException
+    {
+        
+         Email email = new SimpleEmail();
+         
+         email.setDebug(true);
+         email.setHostName("smtp.gmail.com");
+         email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
+         email.setStartTLSEnabled(true);
+         email.setSmtpPort(587);
+         email.setFrom("ucocorgi@gmail.com", "UCO CS Corgi");
+         email.setSubject("Account Confirmation");
+         email.setMsg(firstName + " " + lastName + " please go to the following address "
+                 + "and enter the token:" + token +" and the ID:"+id+" to confirm and activate your account");
+         System.out.print("Email Address: "+email2);
+         email.addTo(email2);
+        
+        
+         
+         email.send();
+         
+        
+    }
 
 }

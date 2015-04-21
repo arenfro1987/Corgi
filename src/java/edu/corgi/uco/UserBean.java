@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -27,6 +28,7 @@ import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.apache.commons.mail.EmailException;
 
 /**
  *
@@ -64,6 +66,29 @@ public class UserBean implements Serializable {
 
     @NotNull(message="Please select a major.")
     private String major;
+    
+     @NotNull(message="Please enter Security Token")
+    int token;
+    
+    @NotNull(message="Please enter User ID")
+    int userID;
+
+    public int getToken() {
+        return token;
+    }
+
+    public void setToken(int token) {
+        this.token = token;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+       
 
     public String getEmail() {
         return email;
@@ -156,7 +181,7 @@ public class UserBean implements Serializable {
     }
     
     //adds a student user form signup to the database
-    public String add() throws SQLException {
+    public String add() throws SQLException, EmailException {
       
         if (dataSource == null) {
             throw new SQLException("DataSource is null");
@@ -170,8 +195,11 @@ public class UserBean implements Serializable {
         
         try {
               
+            Random rand = new Random();
+            int randomNum = rand.nextInt((999999999 - 100000000) + 1) + 100000000;
+              
             PreparedStatement addUser = connection.prepareStatement(
-                "insert into UserTable (email, ucoID, password, firstName, lastName) values (?, ?, ?, ?, ?)",
+                "insert into UserTable (email, ucoID, password, firstName, lastName,authKey) values (?, ?, ?, ?, ?,?)",
                     Statement.RETURN_GENERATED_KEYS);
 
 
@@ -180,6 +208,7 @@ public class UserBean implements Serializable {
             addUser.setString(3, password);
             addUser.setString(4, firstName);
             addUser.setString(5, lastName);
+            addUser.setInt(6, randomNum);
 
             addUser.executeUpdate();
             
@@ -193,7 +222,7 @@ public class UserBean implements Serializable {
             }
             
             PreparedStatement addUserToGroup = connection.prepareStatement(
-                "insert into GroupTable (userID, groupname, email) values (?, 'student', ?)");
+                "insert into GroupTable (userID, email) values (?, ?)");
             
             addUserToGroup.setInt(1, id);
             addUserToGroup.setString(2, email);
@@ -207,6 +236,9 @@ public class UserBean implements Serializable {
             addMajor.setString(2, major);
             
             addMajor.executeUpdate();
+        sendEmails send = new sendEmails();
+            send.sendConfirmation(email, firstName, lastName, randomNum, id);
+            System.out.print("test");
             
         }
         
@@ -215,6 +247,14 @@ public class UserBean implements Serializable {
         }
                 
         return "thanks";     
+    }
+    
+    public String authUser()
+    {
+        
+        
+        
+        return "index.xhtml";
     }
     
     public AppointmentEvent getAppointment(){
