@@ -27,8 +27,17 @@ public class AppointmentEvent extends DefaultScheduleEvent{
 
     AppointmentEvent() {
         super();
-        appointmentID = 0;
+        students = new ArrayList<>();
+        this.appointmentID = 0;
+        slots = 0;
+        
     }
+
+    public ArrayList<Student> getStudents() {
+        if(students == null) students = new ArrayList<>();
+        return students;
+    }
+
     
     public void addStudent(Student student) {
         students.add(student);
@@ -37,6 +46,11 @@ public class AppointmentEvent extends DefaultScheduleEvent{
     public int getAppointmentID() {
         return appointmentID;
     }
+
+    public void setAppointmentID(int appointmentID) {
+        this.appointmentID = appointmentID;
+    }
+    
     
     public int getSlots() {
         return slots;
