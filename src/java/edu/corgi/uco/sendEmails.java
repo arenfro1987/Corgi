@@ -6,7 +6,10 @@
 package edu.corgi.uco;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
@@ -94,5 +97,61 @@ public class sendEmails implements Serializable {
          
         return null;
     }
+    
+        public static void sendAdvisorCancel(String emailAddress, String studentFirstName, String studentLastName) {
+            try {
+                System.out.print("hit send");
+                Email email = new SimpleEmail();
+                System.out.print("created email file");
+                email.setDebug(true);
+                email.setHostName("smtp.gmail.com");
+                email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
+                email.setStartTLSEnabled(true);
+                email.setSmtpPort(587);
+                email.setFrom("ucocorgi@yahoo.com", "UCO CS Secretary");
+                email.setSubject("Advisement Update");
+                email.setMsg(studentFirstName + " " + studentLastName + 
+                        "your appointment has been canceled by the advisor."
+                        + "You will need to log in to CORGI and sign up for another appointment to get advised."
+                        + "Thank you.");
+                System.out.print("Email Address: "+emailAddress);
+                email.addTo(emailAddress);
+
+                System.out.print("added values");
+
+                email.send();
+                System.out.print("sent");
+            } catch (EmailException ex) {
+                Logger.getLogger(sendEmails.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    public static void sendStudentSignUp( String studentFirstName, String studentLastName, Date time) {
+            try {
+                System.out.print("hit send");
+                Email email = new SimpleEmail();
+                System.out.print("created email file");
+                email.setDebug(true);
+                email.setHostName("smtp.gmail.com");
+                email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
+                email.setStartTLSEnabled(true);
+                email.setSmtpPort(587);
+                email.setFrom("ucocorgi@yahoo.com", "UCO CS Secretary");
+                email.setSubject("Advisement Update");
+                email.setMsg("You have a new appointment with " + studentFirstName + " " 
+                        + studentLastName + "on " + time + ". Any previously "
+                        + "scheduled appointments with them have been canceled.");
+                        
+                System.out.print("Email Address: ucocorgi@gmail.com");
+                email.addTo("ucocorgi@gmail.com");
+
+                System.out.print("added values");
+
+                email.send();
+                System.out.print("sent");
+            } catch (EmailException ex) {
+                Logger.getLogger(sendEmails.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
 }

@@ -208,16 +208,38 @@ public class CalendarView implements Serializable {
     
     public void deleteEvent(ActionEvent actionEvent) {
         try(Connection conn = ds.getConnection()){
-            String d = "delete from appointment_slots where appointmentid=?";
-            PreparedStatement delete = conn.prepareStatement(d, Statement.RETURN_GENERATED_KEYS);
-            delete.setInt(1, event.getAppointmentID());
-            delete.execute();
-            
-            d = "delete from appointment where appointmentid=?";
+            String s = "select * from appointment_slots where appointmentid= ?";
+            PreparedStatement query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+            query.setInt(1, event.getAppointmentID());
+            ResultSet rs = query.executeQuery();
+            while(rs.next()){
+                int uid = rs.getInt("userid");
+                if(!rs.wasNull()) {
+                    s = "select email, firstname, lastname from usertable where userid = ?";
+                    query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+                    query.setInt(1, uid);
+                    ResultSet rs2 = query.executeQuery();
+                    if(rs2.next()){
+                        String fn = rs2.getString("firstname");
+                        String ln = rs2.getString("lastname");
+                        String email = rs2.getString("email");
 
-            delete = conn.prepareStatement(d, Statement.RETURN_GENERATED_KEYS);
-            delete.setInt(1, event.getAppointmentID());
-            delete.execute();
+                        sendEmails.sendAdvisorCancel(email, fn, ln);
+                    }
+                }
+            }
+            
+            
+            s = "delete from appointment_slots where appointmentid=?";
+            query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+            query.setInt(1, event.getAppointmentID());
+            query.execute();
+            
+            s = "delete from appointment where appointmentid=?";
+
+            query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+            query.setInt(1, event.getAppointmentID());
+            query.execute();
             
             eventModel.deleteEvent(event);
             
@@ -244,6 +266,10 @@ public class CalendarView implements Serializable {
                 student.setLastName(rs.getString("lastname"));
                 student.setId(rs.getString("ucoid"));
                 
+                s = "update appointment_slots set userid = null where userid = ?";
+                query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+                query.setInt(1, uid);
+                
                 s = "select * from appointment_slots where appointmentid=?";
                 query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
                 query.setInt(1, event.getAppointmentID());
@@ -251,6 +277,7 @@ public class CalendarView implements Serializable {
 
                 boolean found = false;
 
+                
                 while(!found && rs.next()){
                     int i = rs.getInt("userid");
                     if(rs.wasNull()){
@@ -265,6 +292,8 @@ public class CalendarView implements Serializable {
 
                     event.addStudent(student);
                 }
+                
+                sendEmails.sendStudentSignUp(student.getFirstName(), student.getLastName(), event.getStartDate());
             }
         } catch (SQLException ex) {
             Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);
