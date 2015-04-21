@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/student/main.xhtml">
+        <ui:define name="content" >
+            <h:form class="form-horizontal">
+                <h1>Change Password</h1>
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="pass">New Password:</label>
+        
+                    <div class="col-md-10">
+                        <p:password value="#{userBean.password}" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                 <p:commandButton class="btn btn-default col-sm-offset-1" action="#{userBean.changePassword()}"  update="@form" value="Confirm" />
+                </div>
+            </h:form>
+            <h:form class="form-horizontal">
+                <h1>Change Major Code</h1>
+                <p:outputLabel for="major" value="" />
+            <p:selectOneMenu id="major" value="#{userBean.major}">
+                <f:selectItem itemLabel="Select One" itemValue="" />
+                <f:selectItem itemLabel="6100" itemValue="6100" />
+                <f:selectItem itemLabel="6101" itemValue="6101" />
+                <f:selectItem itemLabel="6102" itemValue="6102" />
+                <f:selectItem itemLabel="6110" itemValue="6110" />
+                <f:selectItem itemLabel="6660" itemValue="6660" />
+            </p:selectOneMenu>
+                
+                <p:commandButton class="btn btn-default col-sm-offset-1" action="#{userBean.changeMajor()}"  update="@form" value="Confirm" />
+            </h:form>
+                        
+        </ui:define>
+    </ui:composition>
+</html>
+

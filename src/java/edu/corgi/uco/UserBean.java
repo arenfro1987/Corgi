@@ -19,7 +19,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
 import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -85,7 +88,7 @@ public class UserBean implements Serializable {
     public void setPassword(String password) {
         this.password = SHA256Encrypt.encrypt(password);
     }
-
+    
     public String getFirstName() {
         return firstName;
     }
@@ -251,7 +254,69 @@ public class UserBean implements Serializable {
         
             return null;
     }
+   
+    public void changePassword() throws SQLException {
+       if (dataSource == null) {
+            throw new SQLException("DataSource is null");
+        }
 
+        Connection connection = dataSource.getConnection();
+
+        if (connection == null) {
+            throw new SQLException("Connection");
+        }
+        
+        try {
+
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            String username = ec.getRemoteUser();
+            
+            PreparedStatement changePassword = connection.prepareStatement("update UserTable set password=? where email=?");
+            changePassword.setString(1, getPassword());
+            changePassword.setString(2, username);
+            
+            changePassword.executeUpdate();
+        }
+        
+        finally {
+            connection.close();
+        }
+    }
+   
+    public void changeMajor() throws SQLException {
+        if (dataSource == null) {
+            throw new SQLException("DataSource is null");
+        }
+
+        Connection connection = dataSource.getConnection();
+
+        if (connection == null) {
+            throw new SQLException("Connection");
+        }
+        
+        try {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            String username = ec.getRemoteUser();
+            
+            PreparedStatement getId = connection.prepareStatement("select userId from UserTable where email=?");
+            getId.setString(1, username);
+            
+            ResultSet rs = getId.executeQuery();
+            int userId = 0;
+            while (rs.next()) {
+                userId = rs.getInt("userId");
+            }
+            
+            PreparedStatement changeMajor = connection.prepareStatement("update MajorCodes set majorcode=? where userId=?");
+            changeMajor.setString(1, getMajor());
+            changeMajor.setInt(2, userId);
+            changeMajor.executeUpdate();
+        }
+        
+        finally {
+            connection.close();
+        }
+    }
  
     
 }
