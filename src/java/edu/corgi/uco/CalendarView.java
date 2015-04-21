@@ -244,6 +244,10 @@ public class CalendarView implements Serializable {
                 student.setLastName(rs.getString("lastname"));
                 student.setId(rs.getString("ucoid"));
                 
+                s = "update appointment_slots set userid = null where userid = ?";
+                query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
+                query.setInt(1, uid);
+                
                 s = "select * from appointment_slots where appointmentid=?";
                 query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
                 query.setInt(1, event.getAppointmentID());
@@ -251,6 +255,7 @@ public class CalendarView implements Serializable {
 
                 boolean found = false;
 
+                
                 while(!found && rs.next()){
                     int i = rs.getInt("userid");
                     if(rs.wasNull()){
