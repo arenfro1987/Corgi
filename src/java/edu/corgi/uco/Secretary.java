@@ -74,6 +74,8 @@ public class Secretary implements Serializable {
             cell02.setCellValue("Email");
             HSSFCell cell03 = row0.createCell(3);
             cell03.setCellValue("UCO ID");
+            HSSFCell cell04 = row0.createCell(4);
+            cell04.setCellValue("Appointment Date");
             
             for(int x = 0 ; x < Students.size() ; x++)
             {
@@ -86,6 +88,8 @@ public class Secretary implements Serializable {
                cell2.setCellValue(Students.get(x).getStudentEmail()); 
                HSSFCell cell3 = row.createCell(3);
                cell3.setCellValue(Students.get(x).getUcoID()); 
+               HSSFCell cell4 = row.createCell(4);
+               cell4.setCellValue(Students.get(x).getMeetingDate().toString());
             }
             
             FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -138,6 +142,7 @@ public class Secretary implements Serializable {
                         b.setMeetingDate(result.getDate("appointmentDate"));
                         b.setStudentEmail(result.getString("email"));
                         b.setUcoID(result.getString("UCOID"));
+                        b.setMeetingDate(result.getDate("startdate"));
                         Students.add(b);
                     }
                     return Students;

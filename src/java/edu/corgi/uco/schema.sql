@@ -10,6 +10,7 @@ drop table MajorReq;
 drop table CourseOffering;
 drop table Course;
 drop table UserTable;
+drop table Appointment_Slots;
 
 create table UserTable (
     userID integer not null generated always 
@@ -45,10 +46,18 @@ create table CourseOffering (
 create table Appointment(
     appointmentID integer not null generated always
         as identity(start with 1, increment by 1),
-    appointmentDate Date not null,
-    duration integer,
-    userID integer,
+    startdate timestamp not null,
+    enddate timestamp not null,
+    slots integer,
     primary key(appointmentID)
+);
+
+create table Appointment_Slots(
+    slotID integer not null generated always
+        as identity(start with 1, increment by 1),
+    appointmentID integer not null,
+    userid integer,
+    primary key(slotID)
 );
 
 create table MajorCodes(

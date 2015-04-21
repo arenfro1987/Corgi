@@ -24,6 +24,7 @@ public class CompletedStudentReview implements Serializable {
     private Date meetingDate;
     private String studentEmail;
     private String ucoID;
+    
 
     @PostConstruct
     public void init() {
