@@ -11,11 +11,11 @@
     </f:metadata>
     <ui:composition template="/templates/advisor/main.xhtml">
         <ui:define name="content" >
-            <h1>Proposed Schedule for #{scheduleBean.studentname}</h1>
+            <h1>Proposed Schedule for #{scheduleBean.getStudentname()}</h1>
             <h:form id="form">
                 <h:link outcome="admincalendar" value="Schedule Appointments" />
                 <h1>Appointments This Week</h1>
-                <p:dataTable var="course" value="#{scheduleBean.courses}" rows="20"
+                <p:dataTable var="course" value="#{scheduleBean.schedule.courses}" rows="20"
                              paginator="false"
                              id="scheduletable" >
                     <p:column headerText="Dept">
@@ -30,10 +30,11 @@
                     <p:column headerText="Hours">
                         <h:outputText value="#{course.hours}" />
                     </p:column>
-                    <p:column headerText="Approval">
+
                         <h:outputText style="color:green" value="Schedule Approved!" rendered="#{scheduleBean.schedule.approved}"/>
-                        <h:commandLink style="color: #ff3366" value="Mark Approved" rendered="#{not scheduleBean.schedule.approved}"
-                    </p:column>
+                        <h:commandLink style="color: #ff3366" value="Mark Approved" rendered="#{not scheduleBean.schedule.approved}" />
+
+                </p:dataTable>
 
             </h:form>
 

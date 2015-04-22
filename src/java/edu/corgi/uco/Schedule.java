@@ -47,6 +47,7 @@ public class Schedule {
     }
     
     public ArrayList<Course> getCourses() {
+        if(courses == null) courses = new ArrayList<>();
         return courses;
     }
 

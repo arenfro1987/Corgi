@@ -51,8 +51,8 @@ public class ScheduleBean {
             if(rs.next()) uid = rs.getInt("userid");
             
             query = conn.prepareStatement(
-                    "select * from schedule natural join courseschedulelinkage"
-                            + "natural join course where userid = ?", 
+                    "select * from schedule natural join (courseschedulelinkage"
+                            + "natural join course) where userid = ?", 
                     Statement.RETURN_GENERATED_KEYS);
             query.setInt(1, uid);
             
@@ -94,9 +94,7 @@ public class ScheduleBean {
         }
     }
 
-    public ArrayList<Course> getCourses(){
-        return schedule.getCourses();
-    }
+
 
     public String getStudentname() {
         return studentname;
@@ -104,6 +102,10 @@ public class ScheduleBean {
 
     public Schedule getSchedule() {
         return schedule;
+    }
+
+    public String getEmail() {
+        return email;
     }
     
 }

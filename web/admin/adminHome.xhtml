@@ -26,7 +26,6 @@
 
                     <p:column headerText="Students Signed Up">
                         <p:dataTable value="#{appointmentBean.getStudents(appointment)}" var="stud" >
-                            <p:columnGroup>
                                 <p:column>
                                     <h:outputText value="#{stud.firstName} #{stud.lastName}" />
                                 </p:column>
@@ -35,7 +34,6 @@
                                         <f:param name="email" value="#{stud.email}" />
                                     </h:link>
                                 </p:column>
-                            </p:columnGroup>
                         </p:dataTable>
                     </p:column>
                 </p:dataTable>
