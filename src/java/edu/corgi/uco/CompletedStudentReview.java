@@ -6,7 +6,7 @@
 package edu.corgi.uco;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
