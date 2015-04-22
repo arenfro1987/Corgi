@@ -26,9 +26,16 @@
 
                     <p:column headerText="Students Signed Up">
                         <p:dataTable value="#{appointmentBean.getStudents(appointment)}" var="stud" >
-                            <p:column>
-                                <h:outputText value="#{stud.firstName} #{stud.lastName}" />
-                            </p:column>
+                            <p:columnGroup>
+                                <p:column>
+                                    <h:outputText value="#{stud.firstName} #{stud.lastName}" />
+                                </p:column>
+                                <p:column>
+                                    <h:link value="View Proposed Schedule" outcome="studentschedule">
+                                        <f:param name="email" value="#{stud.email}" />
+                                    </h:link>
+                                </p:column>
+                            </p:columnGroup>
                         </p:dataTable>
                     </p:column>
                 </p:dataTable>
