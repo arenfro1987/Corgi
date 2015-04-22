@@ -13,6 +13,7 @@ public class Schedule {
     public Schedule(int sid, int uid){
         courses = new ArrayList<>();
         this.sid = sid;
+        this.uid = uid;
         approved = false;
     }
     

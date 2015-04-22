@@ -51,15 +51,18 @@ public class ScheduleBean {
             if(rs.next()) uid = rs.getInt("userid");
             
             query = conn.prepareStatement(
-                    "select * from schedule natural join (courseschedulelinkage"
-                            + "natural join course) where userid = ?", 
+                    "select * from schedule natural join courseschedulelinkage "
+                            + "natural join course where userid = ?", 
                     Statement.RETURN_GENERATED_KEYS);
             query.setInt(1, uid);
+            rs = query.executeQuery();
             
             schedule = new Schedule(0, uid);
             int sid = 0;
+            Boolean approved = false;
             while(rs.next()){
                 sid = rs.getInt("scheduleid");
+                approved = rs.getBoolean("approved");
                 Course course = new Course();
                 course.setDepartment(rs.getString("dept"));
                 course.setCourseNumber(rs.getInt("coursenumber"));
@@ -69,19 +72,21 @@ public class ScheduleBean {
             }
             
             schedule.setSid(sid);
+            schedule.setApproved(approved);
             
             query = conn.prepareStatement("select firstname, lastname from usertable where email = ?", 
                     Statement.RETURN_GENERATED_KEYS);
             query.setString(1, email);
             rs = query.executeQuery();
-            studentname = rs.getString("firstname") + " " + rs.getString("lastname");
+            if(rs.next())
+                studentname = rs.getString("firstname") + " " + rs.getString("lastname");
             
         } catch (SQLException ex) {
             Logger.getLogger(ScheduleBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void approveSchedule(){
+    public String approveSchedule(){
         try(Connection conn = ds.getConnection()){
             PreparedStatement query = conn.prepareStatement(
                     "update schedule set approved = true where scheduleid = ?", 
@@ -92,6 +97,8 @@ public class ScheduleBean {
         } catch (SQLException ex) {
             Logger.getLogger(ScheduleBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        sendEmails.sendSecretaryNotification(studentname);
+        return "adminHome";
     }
 
 

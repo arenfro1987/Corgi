@@ -5,16 +5,17 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <f:metadata>
-        <f:viewParam name="email" value="#{scheduleBean.email}" />
-        <f:event type="preRenderView" listener="#{scheduleBean.init}" />
-    </f:metadata>
+
     <ui:composition template="/templates/advisor/main.xhtml">
+        <ui:define name="metadata" >
+            <f:metadata>
+                <f:viewParam name="email" value="#{scheduleBean.email}" />
+                <f:viewAction action="#{scheduleBean.init()}" />
+            </f:metadata>
+        </ui:define>
         <ui:define name="content" >
             <h1>Proposed Schedule for #{scheduleBean.getStudentname()}</h1>
             <h:form id="form">
-                <h:link outcome="admincalendar" value="Schedule Appointments" />
-                <h1>Appointments This Week</h1>
                 <p:dataTable var="course" value="#{scheduleBean.schedule.courses}" rows="20"
                              paginator="false"
                              id="scheduletable" >
@@ -31,10 +32,10 @@
                         <h:outputText value="#{course.hours}" />
                     </p:column>
 
-                        <h:outputText style="color:green" value="Schedule Approved!" rendered="#{scheduleBean.schedule.approved}"/>
-                        <h:commandLink style="color: #ff3366" value="Mark Approved" rendered="#{not scheduleBean.schedule.approved}" />
-
                 </p:dataTable>
+                <h:outputText value="Schedule Approved!" rendered="#{scheduleBean.schedule.approved}"/>
+                <h:commandLink value="Mark Approved" action="#{scheduleBean.approveSchedule()}" 
+                               rendered="#{not scheduleBean.schedule.approved}"/>
 
             </h:form>
 
