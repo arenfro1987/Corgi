@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+            <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+            <link href="resources/css/dashboard.css" rel="stylesheet" type="text/css" />
+
+
+            <title>CORGI</title>
+        </f:facet>
+
+        <f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+
+            <h:outputStylesheet name="css/dashboard.css" />
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+
+            <h:outputScript name="bootstrap/js/bootstrap.js" />
+        </f:facet>
+
+        <f:facet name="last">
+
+        </f:facet>
+
+    </h:head>
+
+    <h:body>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.xhtml">CORGI</a>
+                </div>
+            </div>
+        </div>
+        <h:form id="actForm">
+            <div class="container">
+                <div class="jumbotron">
+                    <h1>Please Enter Your Authentication Information</h1>
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Id" />
+                            </p:column>
+                            <p:column>
+                                <h:inputText id="user" value="#{userBean.userID}" />
+
+                            </p:column>
+       
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Token" />
+                            </p:column>
+                            <p:column>
+                                <h:inputText value="#{userBean.token}" />
+
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+                    <h:message class="error" style="color: red" for="user" id="userError" /> <br></br>
+                    <h:commandButton value="Submit" id="sub" rendered  ="true"   action="#{userBean.authUser()}"/>
+                    <h:message styleClass="infoMessages" style="color: green" for="sub" id="subError" />
+                </div>
+            </div>
+        </h:form>
+
+
+    </h:body>
+</html>
+
+
