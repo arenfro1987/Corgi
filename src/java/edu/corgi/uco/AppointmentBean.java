@@ -62,7 +62,7 @@ public class AppointmentBean {
                     stud.setId(srs.getString("ucoid"));
                     stud.setFirstName(srs.getString("firstname"));
                     stud.setLastName(srs.getString("lastname"));
-                    stud.setEmail("email");
+                    stud.setEmail(srs.getString("email"));
                     ae.addStudent(stud);
                 }
                 if(ae.getStudents().size() > 0) appointments.add(ae);

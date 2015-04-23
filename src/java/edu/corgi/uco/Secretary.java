@@ -13,7 +13,10 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -128,18 +131,23 @@ public class Secretary implements Serializable {
                      */
                     System.out.print("trying statement");
                     PreparedStatement ps = conn.prepareStatement(
-                            "select * from APP.SCHEDULE join UserTable on APP.SCHEDULE.userID = UserTable.userID"
-                            + " join Appointment on APP.SCHEDULE.userID = Appointment.userID "
-                            + "where approved = true and holdRemoved = false"
+                            "select * from schedule natural join usertable natural "
+                            + "join appointment_slots natural join appointment "
+                            + "where approved = true and holdremoved = false"     
                     );
                     System.out.print("made query");
                     ResultSet result = ps.executeQuery();
                     System.out.print("execute query");
                     while (result.next()) {
                         CompletedStudentReview b = new CompletedStudentReview();
+                        Timestamp ad = result.getTimestamp("startdate");
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(ad);
+                        Date sd = c.getTime();
+                        
                         b.setStudentFirstName(result.getString("FIRSTNAME"));
                         b.setStudentLastName(result.getString("LASTNAME"));
-                        b.setMeetingDate(result.getDate("appointmentDate"));
+                        b.setMeetingDate(sd);
                         b.setStudentEmail(result.getString("email"));
                         b.setUcoID(result.getString("UCOID"));
                         b.setMeetingDate(result.getDate("startdate"));

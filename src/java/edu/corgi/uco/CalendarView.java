@@ -282,18 +282,20 @@ public class CalendarView implements Serializable {
                     int i = rs.getInt("userid");
                     if(rs.wasNull()){
                         i = rs.getInt("slotid");
-                        s = "update appointment_slots set userid = ? where appointmentid = ?";
+                        s = "update appointment_slots set userid = ? where slotid = ?";
                         query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
                         query.setInt(1, uid);
-                        query.setInt(2, event.getAppointmentID());
+                        query.setInt(2, i);
                         query.execute();
                         found = true;
+                        event.addStudent(student);
                     }
-
-                    event.addStudent(student);
+                    
                 }
                 
                 sendEmails.sendStudentSignUp(student.getFirstName(), student.getLastName(), event.getStartDate());
+                
+                sendEmails.sendStudentConfirmation(student.getFirstName(), student.getLastName(), event.getStartDate());
             }
         } catch (SQLException ex) {
             Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);
