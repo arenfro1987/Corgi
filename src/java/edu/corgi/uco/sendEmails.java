@@ -36,46 +36,7 @@ import javax.mail.internet.MimeMessage;
 public class sendEmails implements Serializable {
 
     public String send(String emailAddress, String studentFirstName, String studentLastName) throws EmailException {
-        /*
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-        
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("ucocorgi@gmail.com", "drsunguco");
-                    }
-                });
-        Transport transport = session.getTransport("smtp");
-        try {
-            Message message = new MimeMessage(session);
-            System.out.print("made message");
-            message.setFrom(new InternetAddress("ucocorgi@gmail.com"));
-            System.out.print("set from");
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(emailAddress));
-            System.out.print("set to");
-            message.setSubject("Advisement Update");
-            System.out.print("set sub");
-            message.setText(studentFirstName + " " + studentLastName + " "
-                    + "your advisment has been processed and the hold "
-                    + "on your account will be removed shortly");
-            System.out.print("set message");
-            Transport.send(message);
-
-            System.out.println("Done");
-
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-           
-        }
-
-        */
+       
          System.out.print("hit send");
          Email email = new SimpleEmail();
          System.out.print("created email file");
@@ -108,7 +69,7 @@ public class sendEmails implements Serializable {
                 email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
                 email.setStartTLSEnabled(true);
                 email.setSmtpPort(587);
-                email.setFrom("ucocorgi@yahoo.com", "UCO CS Secretary");
+                email.setFrom("ucocorgi@gmail.com", "UCO CS Corgi");
                 email.setSubject("Advisement Update");
                 email.setMsg(studentFirstName + " " + studentLastName + 
                         "your appointment has been canceled by the advisor."
@@ -166,7 +127,7 @@ public class sendEmails implements Serializable {
          email.setSmtpPort(587);
          email.setFrom("ucocorgi@gmail.com", "UCO CS Corgi");
          email.setSubject("Account Confirmation");
-         email.setMsg(firstName + " " + lastName + " please go to the following address "
+         email.setMsg(firstName + " " + lastName + " please go to the following address http://localhost:8080/Corgi/faces/accountAuth.xhtml "
                  + "and enter the token:" + token +" and the ID:"+id+" to confirm and activate your account");
          System.out.print("Email Address: "+email2);
          email.addTo(email2);

@@ -20,6 +20,7 @@ create table UserTable (
     password char(64) not null, /*SHA-256 Encrypted*/
     firstName varchar(20) not null,
     lastName varchar(20) not null,
+    authKey integer,
     primary key(userID)    
 );
 
