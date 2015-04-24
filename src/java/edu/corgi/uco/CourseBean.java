@@ -7,57 +7,68 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.primefaces.model.DualListModel;
 
 /**
  *
  * @author loganhuskins
  */
 @Named(value = "courseBean")
-@SessionScoped
-public class CourseBean implements Serializable{
-    
-    @Size(min=1, message="Please enter a title.")
+@ViewScoped
+public class CourseBean implements Serializable {
+
+    @Size(min = 1, message = "Please enter a title.")
     private String title;
-    
-    @NotNull(message="Please select a department.")
+
+    @NotNull(message = "Please select a department.")
     private String department;
-    
-    @NotNull(message="Please enter a course number.")
-    @Size(min=4, max=4, message="Course number must be 4 numbers long.")
+
+    @NotNull(message = "Please enter a course number.")
+    @Size(min = 4, max = 4, message = "Course number must be 4 numbers long.")
     private String courseNumber;
-    
-    @Size(min=1, max=1, message="Enter a grade (a-f).")
+
+    @Size(min = 1, max = 1, message = "Enter a grade (a-f).")
     private String grade;
-    
+
     private String prereqCourseNumber;
     private int hours;
+    private DualListModel<String> availCourse;
+    private List<String> courseSource = new ArrayList<String>();
     
-        
+    private List<String> courseTarget = new ArrayList<String>();
+    
+    
     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
     String username = ec.getRemoteUser();
-    ArrayList<Course> courses = new ArrayList<>();    
+    ArrayList<Course> courses = new ArrayList<>();
     @Resource(name = "jdbc/corgiDatabase")
     private DataSource ds;
     
+    
+
     public ArrayList<Course> getPastCourses() {
         courses.clear();
-        try(Connection conn = ds.getConnection()) {
+        try (Connection conn = ds.getConnection()) {
 
             PreparedStatement statement = conn.prepareStatement("select hours, dept, coursenumber, title, tc.grade from course c join takencourses tc on tc.courseid=c.courseid join usertable u on u.userid=tc.userid where u.email=?");
             statement.setString(1, username);
-                        
+
             ResultSet rs = statement.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 Course course = new Course();
                 course.setCourseNumber(rs.getInt("courseNumber"));
                 course.setHours(rs.getInt("hours"));
@@ -68,13 +79,13 @@ public class CourseBean implements Serializable{
             }
         } catch (SQLException ex) {
             System.out.println(ex);
-        }    
+        }
         return courses;
     }
 
     public String addCourse() {
 
-        try(Connection conn = ds.getConnection()) {
+        try (Connection conn = ds.getConnection()) {
             System.out.println(hours + " " + department + " " + courseNumber + " " + title);
             PreparedStatement statement = conn.prepareStatement("insert "
                     + "into COURSE (hours, dept, courseNumber, title)"
@@ -83,13 +94,13 @@ public class CourseBean implements Serializable{
             statement.setString(2, department);
             statement.setString(3, courseNumber);
             statement.setString(4, title);
-                        
+
             statement.executeUpdate();
-            
+
             ResultSet results = statement.getGeneratedKeys();
             int courseId;
             if (prereqCourseNumber != null && !prereqCourseNumber.isEmpty()) {
-                while(results.next()) {
+                while (results.next()) {
                     courseId = results.getInt(1);
                     PreparedStatement prereq = conn.prepareStatement("select * from Course "
                             + "where courseNumber=?");
@@ -97,31 +108,31 @@ public class CourseBean implements Serializable{
                     prereq.setString(1, prereqCourseNumber);
                     ResultSet rs = prereq.executeQuery();
                     System.out.println("here");
-                    
+
                     while (rs.next()) {
                         int preID = rs.getInt("courseID");
                         System.out.println("again");
                         PreparedStatement genPrereq = conn.prepareStatement("insert into IspReReq (mainCourseId, preReqCourseId) values (?, ?)");
                         genPrereq.setInt(1, courseId);
                         genPrereq.setInt(2, preID);
-                        
+
                         genPrereq.executeUpdate();
-                        
+
                     }
                 }
             }
-           
+
         } catch (SQLException ex) {
             System.out.println(ex);
         }
         FacesContext.getCurrentInstance().addMessage(title, new FacesMessage("Success"));
         return null;
-        
+
     }
-    
+
     public String addPastCourse() {
-        
-        try(Connection conn = ds.getConnection()) {
+
+        try (Connection conn = ds.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("select courseID "
                     + "from course where dept=? and courseNumber=?");
             statement.setString(1, department);
@@ -129,37 +140,132 @@ public class CourseBean implements Serializable{
 
             int userId = 0;
             int courseId = 0;
-            
+
             ResultSet results = statement.executeQuery();
             while (results.next()) {
                 courseId = results.getInt("courseId");
             }
-            
+
             PreparedStatement state = conn.prepareStatement("select userid from usertable "
                     + "where email=?");
             state.setString(1, username);
-           
+
             results = state.executeQuery();
-            
+
             while (results.next()) {
                 userId = results.getInt("userid");
             }
-            
+
             PreparedStatement add = conn.prepareStatement("insert into takencourses "
-                        + "(courseid, userid, grade) values (?, ?, ?)");
+                    + "(courseid, userid, grade) values (?, ?, ?)");
             add.setInt(1, courseId);
             add.setInt(2, userId);
             add.setString(3, grade);
-            
+
             add.executeUpdate();
-            
+
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        
+
         return "pastCourses?faces-redirect=true";
     }
+    public void fillCourseList() throws SQLException
+    {
+        if (ds == null) {
+                throw new SQLException("DataSource is null");
+            }
 
+            Connection connection = ds.getConnection();
+
+            if (connection == null) {
+                throw new SQLException("Connection");
+            }
+
+            try {
+                System.out.print("start try");
+                PreparedStatement state = connection.prepareStatement("select userid from usertable "
+                        + "where email=?");
+                System.out.print("made statement");
+                state.setString(1, username);
+                System.out.print("set string");
+
+                ResultSet results = state.executeQuery();
+                System.out.print("execute");
+                int userId = 0;
+                while (results.next()) {
+                    userId = results.getInt("userid");
+                    System.out.print("got user id" + userId);
+                }
+
+                PreparedStatement getCourses = connection.prepareStatement(
+                        "select title from course "
+                        + "except "
+                        + " select title from takenCourses join course on takencourses.courseID = course.courseid where userid = ?");
+
+                getCourses.setInt(1, userId);
+                ResultSet results2 = getCourses.executeQuery();
+                System.out.print("excuted query");
+
+                if (results2 != null) {
+                    while (results2.next()) {
+                        System.out.print("result next");
+                        String courseName = results2.getString(1);
+                        System.out.print("got course " + courseName);
+                        courseSource.add(courseName);
+
+                    }
+                }
+                System.out.print("out loop");
+                availCourse = new DualListModel<String>(courseSource, courseTarget);
+
+            } finally {
+                connection.close();
+            }
+        
+    }
+    
+
+    public DualListModel<String> getAvailCourse() throws SQLException {
+        return availCourse;
+    }
+
+    public void setAvailCourse(DualListModel<String> availCourse) {
+        this.availCourse = availCourse;
+    }
+
+    public List<String> getCourseSource() {
+        return courseSource;
+    }
+
+    public void setCourseSource(List<String> courseSource) {
+        this.courseSource = courseSource;
+    }
+
+    public List<String> getCourseTarget() {
+        return courseTarget;
+    }
+
+    public void setCourseTarget(List<String> courseTarget) {
+        this.courseTarget = courseTarget;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(ArrayList<Course> courses) {
+        this.courses = courses;
+    }
+    
     public String getTitle() {
         return title;
     }
@@ -207,5 +313,5 @@ public class CourseBean implements Serializable{
     public void setGrade(String grade) {
         this.grade = grade;
     }
-    
+
 }
