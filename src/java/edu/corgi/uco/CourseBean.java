@@ -45,10 +45,9 @@ public class CourseBean implements Serializable {
 
     private String prereqCourseNumber;
     private int hours;
-    private DualListModel<String> availCourse;
-    private List<String> courseSource = new ArrayList<String>();
+    private List<Course> availCourse = new ArrayList<Course>();
+    private List<Course> addedCourses;
     
-    private List<String> courseTarget = new ArrayList<String>();
     
     
     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -131,8 +130,9 @@ public class CourseBean implements Serializable {
     }
 
     public String addPastCourse() {
-
+        
         try (Connection conn = ds.getConnection()) {
+            /*
             PreparedStatement statement = conn.prepareStatement("select courseID "
                     + "from course where dept=? and courseNumber=?");
             statement.setString(1, department);
@@ -155,14 +155,29 @@ public class CourseBean implements Serializable {
             while (results.next()) {
                 userId = results.getInt("userid");
             }
+            */
+            int userId = 0;
+            PreparedStatement state = conn.prepareStatement("select userid from usertable "
+                    + "where email=?");
+            state.setString(1, username);
 
+            ResultSet results = state.executeQuery();
+
+            while (results.next()) {
+                userId = results.getInt("userid");
+            }
+        for(int  x =0; x< addedCourses.size() ; x++)
+        {
             PreparedStatement add = conn.prepareStatement("insert into takencourses "
                     + "(courseid, userid, grade) values (?, ?, ?)");
-            add.setInt(1, courseId);
+            add.setInt(1, addedCourses.get(x).getId());
             add.setInt(2, userId);
-            add.setString(3, grade);
+            add.setString(3, addedCourses.get(x).getGrade());
 
             add.executeUpdate();
+            
+        }
+            fillCourseList();
 
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -172,6 +187,7 @@ public class CourseBean implements Serializable {
     }
     public void fillCourseList() throws SQLException
     {
+        availCourse.clear();
         if (ds == null) {
                 throw new SQLException("DataSource is null");
             }
@@ -199,9 +215,10 @@ public class CourseBean implements Serializable {
                 }
 
                 PreparedStatement getCourses = connection.prepareStatement(
-                        "select title from course "
+                        "select title, courseid, hours, dept, coursenumber from course "
                         + "except "
-                        + " select title from takenCourses join course on takencourses.courseID = course.courseid where userid = ?");
+                        + " select title, course.courseid, hours, dept, coursenumber"
+                        + " from takenCourses join course on takencourses.courseID = course.courseid where userid = ?");
 
                 getCourses.setInt(1, userId);
                 ResultSet results2 = getCourses.executeQuery();
@@ -209,46 +226,54 @@ public class CourseBean implements Serializable {
 
                 if (results2 != null) {
                     while (results2.next()) {
+                        Course temp = new Course();
                         System.out.print("result next");
                         String courseName = results2.getString(1);
                         System.out.print("got course " + courseName);
-                        courseSource.add(courseName);
+                        temp.setTitle(courseName);
+                        String dept = results2.getString("dept");
+                        temp.setDepartment(dept);
+                        int id = results2.getInt("courseid");
+                        temp.setId(id);
+                        int hours = results2.getInt("hours");
+                        temp.setHours(hours);
+                        int courseNumber = results2.getInt("coursenumber");
+                        temp.setCourseNumber(courseNumber);                      
+                        availCourse.add(temp);
 
                     }
                 }
                 System.out.print("out loop");
-                availCourse = new DualListModel<String>(courseSource, courseTarget);
+                
 
             } finally {
                 connection.close();
             }
         
     }
+
+    public List<Course> getAddedCourses() {
+        return addedCourses;
+    }
+
+    public void setAddedCourses(List<Course> addedCourses) {
+        for(int x = 0; x < addedCourses.size(); x++)
+        {
+            System.out.print("from set added courses name:"+ addedCourses.get(x).getTitle());
+        }
+        this.addedCourses = addedCourses;
+    }
     
 
-    public DualListModel<String> getAvailCourse() throws SQLException {
+    public List<Course> getAvailCourse() throws SQLException {
         return availCourse;
     }
 
-    public void setAvailCourse(DualListModel<String> availCourse) {
+    public void setAvailCourse(List<Course> availCourse) {
         this.availCourse = availCourse;
     }
 
-    public List<String> getCourseSource() {
-        return courseSource;
-    }
-
-    public void setCourseSource(List<String> courseSource) {
-        this.courseSource = courseSource;
-    }
-
-    public List<String> getCourseTarget() {
-        return courseTarget;
-    }
-
-    public void setCourseTarget(List<String> courseTarget) {
-        this.courseTarget = courseTarget;
-    }
+  
 
     public String getUsername() {
         return username;

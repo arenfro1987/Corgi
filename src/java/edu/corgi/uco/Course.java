@@ -7,7 +7,16 @@ public class Course {
     private int courseNumber;
     private String title;
     private String grade;
+    private int id;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getDepartment() {
         return department;
     }
@@ -45,6 +54,7 @@ public class Course {
     }
 
     public void setGrade(String grade) {
+        grade = grade.toUpperCase();
         this.grade = grade;
     }
 }
