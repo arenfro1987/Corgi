@@ -7,52 +7,56 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/student/main.xhtml">
         <ui:define name="content" >
-        <h1>Past Courses</h1>
-            <p:dataTable var="course" value="#{courseBean.getPastCourses()}">
-                <p:column headerText="Department">
-                    <h:outputText value="#{course.department}" />
-                </p:column>
 
-                <p:column headerText="Course Number">
-                    <h:outputText value="#{course.courseNumber}" />
-                </p:column>
+          #{courseBean.fillCourseList()}      
 
-                <p:column headerText="Course Name">
-                    <h:outputText value="#{course.title}" />
-                </p:column>
+            <p:accordionPanel multiple="true">
+                <p:tab title="Past Courses">
+                    <p:dataTable var="course" value="#{courseBean.getPastCourses()}">
+                        <p:column headerText="Department">
+                            <h:outputText value="#{course.department}" />
+                        </p:column>
 
-                <p:column headerText="Grade">
-                    <h:outputText value="#{course.grade}" />
-                </p:column>
-        </p:dataTable>
-        <h:form class="form-horizontal">
-        <h1>Add a Course</h1>
-            <div class="form-group">
-                    <label class="control-label col-sm-2" for="pass">Course Number:</label>
-        
-                    <div class="col-md-10">
-                        <p:inputText id="number" value="#{courseBean.courseNumber}" />
-                    </div>
-            </div>
-            <div class="form-group">
-                    <label class="control-label col-sm-2" for="pass">Grade:</label>
-        
-                    <div class="col-md-10">
-                        <p:inputText id="grade" value="#{courseBean.grade}" />
-                    </div>
-            </div>
-            <p:outputLabel for="department" value="" />
-                <p:selectOneMenu id="department" value="#{courseBean.department}">
-                    <f:selectItem itemLabel="Select Department" itemValue="" />
-                    <f:selectItem itemLabel="CMSC" itemValue="CMSC" />
-                    <f:selectItem itemLabel="SE" itemValue="SE" />
-                </p:selectOneMenu>
+                        <p:column headerText="Course Number">
+                            <h:outputText value="#{course.courseNumber}" />
+                        </p:column>
 
-            <div class="form-group">
-                 <p:commandButton class="btn btn-default col-sm-offset-1" action="#{courseBean.addPastCourse()}"  update="@form" value="Add Course" />
-            </div>
-        </h:form>
+                        <p:column headerText="Course Name">
+                            <h:outputText value="#{course.title}" />
+                        </p:column>
+
+                        <p:column headerText="Grade">
+                            <h:outputText value="#{course.grade}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="Add A Course">
+
+                    <p:pickList id="pickList" value="#{courseBean.availCourse}" var="availCourse" itemLabel="#{availCourse}" itemValue="#{availCourse}" />
+
+                    <p:commandButton id="pickSubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />
+
+                    <p:dialog modal="true" showEffect="fade" hideEffect="fade" widgetVar="cityDialog">
+                        <h:panelGrid id="displayCities" columns="2">
+                            <h:outputText value="Source: " style="font-weight:bold" />
+                            <ui:repeat value="#{courseBean.availCourse.source}" var="item">
+                                <h:outputText value="#{item}" style="margin-right:5px" />
+                            </ui:repeat>
+
+                            <h:outputText value="Target: " style="font-weight:bold" />
+                            <ui:repeat value="#{courseBean.availCourse.target}" var="item">
+                                <h:outputText value="#{item}" style="margin-right:5px" />
+                            </ui:repeat>
+                        </h:panelGrid>
+                    </p:dialog>
+                </p:tab>
+
+            </p:accordionPanel>
+
+
+
+
         </ui:define>
-      
+
     </ui:composition>
 </html>
