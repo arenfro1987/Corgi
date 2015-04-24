@@ -7,8 +7,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/student/main.xhtml">
         <ui:define name="content" >
-
-          #{courseBean.fillCourseList()}      
+        <h:form id="form">
+            #{courseBean.fillCourseList()}      
 
             <p:accordionPanel multiple="true">
                 <p:tab title="Past Courses">
@@ -31,29 +31,39 @@
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="Add A Course">
+                    <p:dataTable id="checkboxDT" var="course" value="#{courseBean.availCourse}" selection="#{courseBean.addedCourses}" rowKey="#{course.id}" style="margin-bottom:0">
+                        <p:column selectionMode="multiple" style="width:10px;text-align:center"/>
+                        <p:column headerText="Id" style="width:10px">
+                            <h:outputText value="#{course.id}" />
+                        </p:column>
+                        <p:column headerText="Title" style="width:50px;text-align:center">
+                            <h:outputText value="#{course.title}" />
+                        </p:column>
+                        <p:column headerText="Grade" style="width:10px;text-align:center">
+                            <p:inputText value="#{course.grade}" style="width:50px;text-align:center" />
+                        </p:column>
+                        <p:column headerText="Dept" style="width:10px;text-align:center">
+                            <h:outputText value="#{course.department}" />
+                        </p:column>
+                        <p:column headerText="Couse#" style="width:20px;text-align:center">
+                            <h:outputText value="#{course.courseNumber}" />
+                        </p:column>
+                        <p:column headerText="Hours" style="width:10px;text-align:center">
+                            <h:outputText value="#{course.hours}" />
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Submit" update="@all" process="checkboxDT"  actionListener="#{courseBean.addPastCourse}"/>
+                        </f:facet>
 
-                    <p:pickList id="pickList" value="#{courseBean.availCourse}" var="availCourse" itemLabel="#{availCourse}" itemValue="#{availCourse}" />
 
-                    <p:commandButton id="pickSubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />
 
-                    <p:dialog modal="true" showEffect="fade" hideEffect="fade" widgetVar="cityDialog">
-                        <h:panelGrid id="displayCities" columns="2">
-                            <h:outputText value="Source: " style="font-weight:bold" />
-                            <ui:repeat value="#{courseBean.availCourse.source}" var="item">
-                                <h:outputText value="#{item}" style="margin-right:5px" />
-                            </ui:repeat>
+                    </p:dataTable>
 
-                            <h:outputText value="Target: " style="font-weight:bold" />
-                            <ui:repeat value="#{courseBean.availCourse.target}" var="item">
-                                <h:outputText value="#{item}" style="margin-right:5px" />
-                            </ui:repeat>
-                        </h:panelGrid>
-                    </p:dialog>
                 </p:tab>
 
             </p:accordionPanel>
 
-
+        </h:form>
 
 
         </ui:define>
