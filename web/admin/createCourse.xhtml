@@ -7,52 +7,91 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/advisor/main.xhtml">
         <ui:define name="content" >
-            <h:form class="form-horizontal">
-                <h1>Create New Course</h1>
+            <h:form id="form" class="form-horizontal">
+                #{courseBean.createAllCourses()}
+                <p:accordionPanel multiple="true">
+                    <p:tab title="Create New Course">
 
-                <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
-                
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="pass">Title:</label>
-        
-                    <div class="col-md-10">
-                        <p:inputText id="title" value="#{courseBean.title}" />
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="pass">Course Number:</label>
-        
-                    <div class="col-md-10">
-                        <p:inputText id="number" value="#{courseBean.courseNumber}" />
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="pass">Hours:</label>
-        
-                    <div class="col-md-10">
-                        <p:inputText id="hours" value="#{courseBean.hours}" />
-                    </div>
-                </div>
-                <p>Note: course does not have to have a prerequisite.</p>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="pass">Prereq:</label>
-        
-                    <div class="col-md-10">
-                        <p:inputText id="prereq" value="#{courseBean.prereqCourseNumber}" />
-                    </div>
-                </div>
-                <p:outputLabel for="department" value="" />
-                <p:selectOneMenu id="department" value="#{courseBean.department}">
-                    <f:selectItem itemLabel="Select Department" itemValue="" />
-                    <f:selectItem itemLabel="CMSC" itemValue="CMSC" />
-                    <f:selectItem itemLabel="SE" itemValue="SE" />
-                </p:selectOneMenu>
-                
-                <div class="form-group">
-                 <p:commandButton class="btn btn-default col-sm-offset-1" action="#{courseBean.addCourse()}"  update="@form" value="Confirm" />
-                </div>
+
+                        <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="pass">Title:</label>
+
+                            <div class="col-md-10">
+                                <p:inputText id="title" value="#{courseBean.title}" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="pass">Course Number:</label>
+
+                            <div class="col-md-10">
+                                <p:inputText id="number" value="#{courseBean.courseNumber}" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="pass">Hours:</label>
+
+                            <div class="col-md-10">
+                                <p:inputText id="hours" value="#{courseBean.hours}" />
+                            </div>
+                        </div>
+                        <p>Note: course does not have to have a prerequisite.</p>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="pass">Prereq:</label>
+
+                            <div class="col-md-10">
+                                <p:inputText id="prereq" value="#{courseBean.prereqCourseNumber}" />
+                            </div>
+                        </div>
+                        <p:outputLabel for="department" value="" />
+                        <p:selectOneMenu id="department" value="#{courseBean.department}">
+                            <f:selectItem itemLabel="Select Department" itemValue="" />
+                            <f:selectItem itemLabel="CMSC" itemValue="CMSC" />
+                            <f:selectItem itemLabel="SE" itemValue="SE" />
+                        </p:selectOneMenu>
+
+                        <div class="form-group">
+                            <p:commandButton class="btn btn-default col-sm-offset-1" action="#{courseBean.addCourse()}"  update="@form" value="Confirm" />
+                        </div>
+
+                    </p:tab>
+                    <p:tab title="Add A Prerequisite">
+                        <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="15">
+                            <p:outputLabel for="courseToAddPreReqTo" value="Course to add Prerequisite to: " />
+                            <p:selectOneMenu id="courseToAddPreReqTo" value="#{courseBean.courseToAddPreReqTo}" style="width:125px">
+                                <f:selectItems value="#{courseBean.allCourses}"/>
+                            </p:selectOneMenu> 
+                            <p:commandButton value="Get PreReqs" update=":currentPreReq"   process="courseToAddPreReqTo" />
+                        </h:panelGrid>
+                        
+                        <p:dataTable id="currentPreReq" value="#{courseBean.currentPreReq}" var="Course" rendered="#{courseBean.displayPreReq}">
+                            <p:column headerText="ID">
+                                <h:outputText value="#{Course.id}"/>
+                            </p:column>
+                            <p:column headerText="Dept">
+                                <h:outputText value="#{Course.department}"/>
+                            </p:column>
+                            <p:column headerText="Course#">
+                                <h:outputText value="#{Course.courseNumber}"/>
+                            </p:column>
+                            <p:column headerText="Title">
+                                <h:outputText value="#{Course.title}"/>
+                            </p:column>
+                            <p:column headerText="Hours">
+                                <h:outputText value="#{Course.hours}"/>
+                            </p:column>
+                            
+                            
+                        
+                        </p:dataTable>
+                        
+
+
+                    </p:tab>
+                </p:accordionPanel>
             </h:form>
 
         </ui:define>
