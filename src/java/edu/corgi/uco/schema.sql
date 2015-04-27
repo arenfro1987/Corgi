@@ -82,6 +82,8 @@ create table Schedule(
     userID integer,
     approved boolean,
     holdRemoved boolean,
+    semester varchar(15),
+    yearPlanned integer,
     primary key(scheduleID)
 );
 

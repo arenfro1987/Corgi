@@ -139,6 +139,48 @@ public class CourseBean implements Serializable {
 
     }
     
+    public List<Course> getSemesterPlannedCourses() {
+        semesterCourses.clear();
+        try (Connection conn = ds.getConnection()) {
+            boolean schedExists = false;
+            PreparedStatement statement = conn.prepareStatement("select * from "
+                    + "schedule s join usertable u on s.userid=u.userid"
+                    + " where s.semester=? and s.yearPlanned=? and u.email=?");
+            statement.setString(1, getSemester());
+            statement.setInt(2, getYear());
+            statement.setString(3, username);
+            System.out.println(username);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                schedExists = true;
+                System.out.println("in loop");
+                if (schedExists) {
+                    PreparedStatement getSched = conn.prepareStatement("select "
+                            + "* from "
+                    + "course c join CourseScheduleLinkage cs on cs.courseid=c.courseid"
+                    + " where cs.scheduleid=?");
+                    getSched.setInt(1, rs.getInt("scheduleID"));
+                    
+                    ResultSet result = getSched.executeQuery();
+                    
+                    while (result.next()) {
+                        Course course = new Course();
+                        course.setCourseNumber(result.getInt("coursenumber"));
+                        course.setDepartment(result.getString("dept"));
+                        course.setTitle(result.getString("title"));
+                        semesterCourses.add(course);
+                    }
+                }
+            }
+            System.out.println("sched = " + schedExists);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return semesterCourses;
+
+    }
+    
     public void createAllCourses() throws SQLException {
         allCourses.clear();
         if (ds == null) {
@@ -213,6 +255,25 @@ public class CourseBean implements Serializable {
         }
         
         return "semesterPlanner";
+    }
+    public String addSemesterPlannedCourse() {
+        /*System.out.println(getYear());
+        System.out.println(getSemester());
+        try (Connection conn = ds.getConnection()) {
+            for (int i = 0; i < getSemesterAddedCourses().size(); i++) {
+                PreparedStatement statement = conn.prepareStatement("insert into CourseOffering "
+                    + "(courseNumber, semester, yearOffered) values (?, ?, ?)");
+                statement.setInt(1, getSemesterAddedCourses().get(i).getCourseNumber());
+                statement.setString(2, getSemester());
+                statement.setInt(3, getYear());
+                statement.executeUpdate();
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }*/
+        
+        return "semesterCourses";
     }
 
     public String addCourse() {
@@ -389,6 +450,35 @@ public class CourseBean implements Serializable {
         getPrereqAddedCourses().clear();
         try (Connection conn = ds.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("select * from Course");
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Course course = new Course();
+                course.setCourseNumber(rs.getInt("courseNumber"));
+                course.setDepartment(rs.getString("dept"));
+                course.setTitle(rs.getString("title"));
+                course.setHours(rs.getInt("hours"));
+                course.setId(rs.getInt("courseid"));
+                fillAllCourses.add(course);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return fillAllCourses;
+    }
+    
+    public List<Course> allElegibleCourses() {
+        fillAllCourses.clear();
+        getPrereqAddedCourses().clear();
+        try (Connection conn = ds.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement("select * from "
+                    + "Course c join isprereq pr on pr.maincourseid=c.courseid " +
+                        "join takencourses tc on tc.courseid=pr.PREREQCOURSEID " +
+                           "join usertable ut on ut.USERID=tc.USERID "
+                    + "join courseoffering co on co.coursenumber=c.coursenumber" +
+                            " where email=? and co.semester='Spring' and co.yearoffered=2015");
+            statement.setString(1, username);
 
             ResultSet rs = statement.executeQuery();
 

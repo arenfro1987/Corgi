@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/student/main.xhtml">
+        <ui:define name="content" >
+
+            <h:form id="form">
+                <h1>Planned Schedule</h1>
+
+
+                <p:accordionPanel multiple="true">
+
+                    <p:tab title="This Semester's Schedule">
+                        <p:dataTable var="course" id="courseTable" value="#{courseBean.getSemesterPlannedCourses()}">
+                            <p:column headerText="Department">
+                                <h:outputText value="#{course.department}" />
+                            </p:column>
+
+                            <p:column headerText="Course Number">
+                                <h:outputText value="#{course.courseNumber}" />
+                            </p:column>
+
+                            <p:column headerText="Course Name">
+                                <h:outputText value="#{course.title}" />
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:outputLabel for="semester" value="" />
+                        <p:selectOneMenu id="semester" value="#{courseBean.semester}">
+                            <f:selectItem itemLabel="Select Semester" itemValue="" />
+                            <f:selectItem itemLabel="Spring" itemValue="Spring" />
+                            <f:selectItem itemLabel="Summer" itemValue="Summer" />
+                            <f:selectItem itemLabel="Fall" itemValue="Fall" />
+                            <p:ajax event="change" listener="#{courseBean.getSemesterCourses()}" update="courseTable" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="year" value="" />
+                        <p:selectOneMenu id="year" value="#{courseBean.year}">
+                            <f:selectItem itemLabel="Select Year" itemValue="" />
+                            <f:selectItem itemLabel="2015" itemValue="2015" />
+                            <f:selectItem itemLabel="2016" itemValue="2016" />
+                            <f:selectItem itemLabel="2017" itemValue="2017" />
+                            <f:selectItem itemLabel="2018" itemValue="2018" />
+                            <f:selectItem itemLabel="2019" itemValue="2019" />
+                            <p:ajax event="change" listener="#{courseBean.getSemesterCourses()}" update="courseTable" />
+                        </p:selectOneMenu>
+                    </p:tab>
+                    <p:tab title="Add A Course">
+                        <p:dataTable id="checkboxDT" var="course" value="#{courseBean.allElegibleCourses()}" selection="#{courseBean.semesterAddedCourses}" rowKey="#{course.courseNumber}" style="margin-bottom:0">
+                            <p:column selectionMode="multiple" style="width:10px;text-align:center"/>                        
+                            <p:column headerText="Title" style="width:50px;text-align:center">
+                                <h:outputText value="#{course.title}" />
+                            </p:column>
+                            <p:column headerText="Dept" style="width:10px;text-align:center">
+                                <h:outputText value="#{course.department}" />
+                            </p:column>
+                            <p:column headerText="Course Number" style="width:20px;text-align:center">
+                                <h:outputText value="#{course.courseNumber}" />
+                            </p:column>
+                            <p:column headerText="Hours" style="width:10px;text-align:center">
+                                <h:outputText value="#{course.hours}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Submit" update="@all" process="checkboxDT"  actionListener="#{courseBean.addSemesterPlannedCourse()}"/>
+                            </f:facet>
+                        </p:dataTable>
+                        <p>Note: List only shows courses you are eligible for</p>
+                    </p:tab>
+                </p:accordionPanel> 
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>
