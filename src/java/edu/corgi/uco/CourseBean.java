@@ -30,6 +30,9 @@ import org.primefaces.model.DualListModel;
 @ViewScoped
 public class CourseBean implements Serializable {
 
+    private int year;
+    private String semester;
+    
     @Size(min = 1, message = "Please enter a title.")
     private String title;
 
@@ -47,7 +50,14 @@ public class CourseBean implements Serializable {
     private int hours;
     private List<Course> availCourse = new ArrayList<Course>();
     private List<Course> addedCourses;
+    private List<Course> semesterCourses = new ArrayList<>();
+    private List<Course> allCourses = new ArrayList<>();
+    private List<Course> semesterAddedCourses = new ArrayList<>();
+    private List<Course> prereqAddedCourses = new ArrayList<>();
     
+    private String prereqOne;
+    private String prereqTwo;
+    private String prereqThree;
     
     
     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -55,7 +65,6 @@ public class CourseBean implements Serializable {
     ArrayList<Course> courses = new ArrayList<>();
     @Resource(name = "jdbc/corgiDatabase")
     private DataSource ds;
-    
     
 
     public ArrayList<Course> getPastCourses() {
@@ -81,11 +90,38 @@ public class CourseBean implements Serializable {
         }
         return courses;
     }
+    
+    public List<Course> getSemesterCourses() {
+        semesterCourses.clear();
+        try (Connection conn = ds.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement("select c.title, "
+                    + "c.courseNumber, c.dept "
+                    + "from CourseOffering co Join Course c on c.courseNumber=co.courseNumber "
+                    + "where co.semester=? and co.yearOffered=?");
+            statement.setString(1, semester);
+            statement.setInt(2, year);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Course course = new Course();
+                course.setCourseNumber(rs.getInt("courseNumber"));
+                course.setDepartment(rs.getString("dept"));
+                course.setTitle(rs.getString("title"));
+                semesterCourses.add(course);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return semesterCourses;
+
+    }
 
     public String addCourse() {
-
+        System.out.println("p1 = " + prereqOne);
+        System.out.println("p2 = " + prereqTwo);
+        System.out.println("p3 = " + prereqThree);
         try (Connection conn = ds.getConnection()) {
-            System.out.println(hours + " " + department + " " + courseNumber + " " + title);
             PreparedStatement statement = conn.prepareStatement("insert "
                     + "into COURSE (hours, dept, courseNumber, title)"
                     + "values (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -97,29 +133,32 @@ public class CourseBean implements Serializable {
             statement.executeUpdate();
 
             ResultSet results = statement.getGeneratedKeys();
-            int courseId;
-            if (prereqCourseNumber != null && !prereqCourseNumber.isEmpty()) {
-                while (results.next()) {
-                    courseId = results.getInt(1);
-                    PreparedStatement prereq = conn.prepareStatement("select * from Course "
-                            + "where courseNumber=?");
-                    System.out.println(prereqCourseNumber);
-                    prereq.setString(1, prereqCourseNumber);
-                    ResultSet rs = prereq.executeQuery();
-                    System.out.println("here");
-
-                    while (rs.next()) {
-                        int preID = rs.getInt("courseID");
-                        System.out.println("again");
-                        PreparedStatement genPrereq = conn.prepareStatement("insert into IspReReq (mainCourseId, preReqCourseId) values (?, ?)");
-                        genPrereq.setInt(1, courseId);
-                        genPrereq.setInt(2, preID);
-
-                        genPrereq.executeUpdate();
-
-                    }
-                }
+            int courseId = 0;
+            while (results.next()) {
+                courseId = results.getInt(1);
             }
+            if (prereqOne != null && !prereqOne.isEmpty()) {
+                PreparedStatement prereq = conn.prepareStatement("insert into isprereq "
+                        + "(maincourseid, prereqcourseid) values (?, ?)");
+                prereq.setInt(1, courseId);
+                prereq.setString(2, prereqOne);
+                prereq.executeUpdate();
+            }
+             if (prereqTwo != null && !prereqTwo.isEmpty()) {
+                PreparedStatement prereq = conn.prepareStatement("insert into isprereq "
+                        + "(maincourseid, prereqcourseid) values (?, ?)");
+                prereq.setInt(1, courseId);
+                prereq.setString(2, prereqTwo);
+                prereq.executeUpdate();
+            }
+              if (prereqThree != null && !prereqThree.isEmpty()) {
+                PreparedStatement prereq = conn.prepareStatement("insert into isprereq "
+                        + "(maincourseid, prereqcourseid) values (?, ?)");
+                prereq.setInt(1, courseId);
+                prereq.setString(2, prereqThree);
+                prereq.executeUpdate();
+            }
+            
 
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -185,6 +224,26 @@ public class CourseBean implements Serializable {
 
         return "pastCourses?faces-redirect=true";
     }
+    
+    public String addSemesterCourse() {
+        System.out.println(year);
+        System.out.println(semester);
+        try (Connection conn = ds.getConnection()) {
+            for (int i = 0; i < semesterAddedCourses.size(); i++) {
+                PreparedStatement statement = conn.prepareStatement("insert into CourseOffering "
+                    + "(courseNumber, semester, yearOffered) values (?, ?, ?)");
+                statement.setInt(1, semesterAddedCourses.get(i).getCourseNumber());
+                statement.setString(2, semester);
+                statement.setInt(3, year);
+                statement.executeUpdate();
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+        return "semesterPlanner";
+    }
     public void fillCourseList() throws SQLException
     {
         availCourse.clear();
@@ -199,19 +258,14 @@ public class CourseBean implements Serializable {
             }
 
             try {
-                System.out.print("start try");
                 PreparedStatement state = connection.prepareStatement("select userid from usertable "
                         + "where email=?");
-                System.out.print("made statement");
                 state.setString(1, username);
-                System.out.print("set string");
 
                 ResultSet results = state.executeQuery();
-                System.out.print("execute");
                 int userId = 0;
                 while (results.next()) {
                     userId = results.getInt("userid");
-                    System.out.print("got user id" + userId);
                 }
 
                 PreparedStatement getCourses = connection.prepareStatement(
@@ -222,14 +276,11 @@ public class CourseBean implements Serializable {
 
                 getCourses.setInt(1, userId);
                 ResultSet results2 = getCourses.executeQuery();
-                System.out.print("excuted query");
 
                 if (results2 != null) {
                     while (results2.next()) {
                         Course temp = new Course();
-                        System.out.print("result next");
                         String courseName = results2.getString(1);
-                        System.out.print("got course " + courseName);
                         temp.setTitle(courseName);
                         String dept = results2.getString("dept");
                         temp.setDepartment(dept);
@@ -243,7 +294,6 @@ public class CourseBean implements Serializable {
 
                     }
                 }
-                System.out.print("out loop");
                 
 
             } finally {
@@ -252,6 +302,29 @@ public class CourseBean implements Serializable {
         
     }
 
+    public List<Course> allCourses() {
+        allCourses.clear();
+        prereqAddedCourses.clear();
+        try (Connection conn = ds.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement("select * from Course");
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Course course = new Course();
+                course.setCourseNumber(rs.getInt("courseNumber"));
+                course.setDepartment(rs.getString("dept"));
+                course.setTitle(rs.getString("title"));
+                course.setHours(rs.getInt("hours"));
+                course.setId(rs.getInt("courseid"));
+                allCourses.add(course);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return allCourses;
+    }
+    
     public List<Course> getAddedCourses() {
         return addedCourses;
     }
@@ -265,6 +338,22 @@ public class CourseBean implements Serializable {
     }
     
 
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+    
     public List<Course> getAvailCourse() throws SQLException {
         return availCourse;
     }
@@ -337,6 +426,46 @@ public class CourseBean implements Serializable {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public List<Course> getSemesterAddedCourses() {
+        return semesterAddedCourses;
+    }
+
+    public void setSemesterAddedCourses(List<Course> semesterAddedCourses) {
+        this.semesterAddedCourses = semesterAddedCourses;
+    }
+
+    public List<Course> getPrereqAddedCourses() {
+        return prereqAddedCourses;
+    }
+
+    public void setPrereqAddedCourses(List<Course> prereqAddedCourses) {
+        this.prereqAddedCourses = prereqAddedCourses;
+    }
+
+    public String getPrereqOne() {
+        return prereqOne;
+    }
+
+    public void setPrereqOne(String prereqOne) {
+        this.prereqOne = prereqOne;
+    }
+
+    public String getPrereqTwo() {
+        return prereqTwo;
+    }
+
+    public void setPrereqTwo(String prereqTwo) {
+        this.prereqTwo = prereqTwo;
+    }
+
+    public String getPrereqThree() {
+        return prereqThree;
+    }
+
+    public void setPrereqThree(String prereqThree) {
+        this.prereqThree = prereqThree;
     }
 
 }

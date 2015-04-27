@@ -8,6 +8,7 @@ public class Course {
     private String title;
     private String grade;
     private int id;
+    private int year;
 
     public int getId() {
         return id;
@@ -56,5 +57,13 @@ public class Course {
     public void setGrade(String grade) {
         grade = grade.toUpperCase();
         this.grade = grade;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

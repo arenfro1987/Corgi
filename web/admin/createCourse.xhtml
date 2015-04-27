@@ -35,25 +35,38 @@
                         <p:inputText id="hours" value="#{courseBean.hours}" />
                     </div>
                 </div>
-                <p>Note: course does not have to have a prerequisite.</p>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="pass">Prereq:</label>
-        
-                    <div class="col-md-10">
-                        <p:inputText id="prereq" value="#{courseBean.prereqCourseNumber}" />
-                    </div>
-                </div>
+                
                 <p:outputLabel for="department" value="" />
                 <p:selectOneMenu id="department" value="#{courseBean.department}">
                     <f:selectItem itemLabel="Select Department" itemValue="" />
                     <f:selectItem itemLabel="CMSC" itemValue="CMSC" />
                     <f:selectItem itemLabel="SE" itemValue="SE" />
                 </p:selectOneMenu>
-                
+                <br />
+                <p:selectOneMenu value="#{courseBean.prereqOne}" >
+                    <f:selectItem itemLabel="--Select--" itemValue="" />
+                    <f:selectItems value="#{courseBean.allCourses()}" var="p"
+   			itemLabel="#{p.title}" itemValue="#{p.id}" />
+                </p:selectOneMenu>
+                <br />
+                <p:selectOneMenu value="#{courseBean.prereqTwo}" >
+                    <f:selectItem itemLabel="--Select--" itemValue="" />
+                    <f:selectItems value="#{courseBean.allCourses()}" var="p"
+   			itemLabel="#{p.title}" itemValue="#{p.id}" />
+                </p:selectOneMenu>
+                <br />
+                <p:selectOneMenu value="#{courseBean.prereqThree}" >
+                    <f:selectItem itemLabel="--Select--" itemValue="" />
+                    <f:selectItems value="#{courseBean.allCourses()}" var="p"
+   			itemLabel="#{p.title}" itemValue="#{p.id}" />
+                </p:selectOneMenu>
+                <p>Note: course does not have to have a prerequisite.</p>
                 <div class="form-group">
                  <p:commandButton class="btn btn-default col-sm-offset-1" action="#{courseBean.addCourse()}"  update="@form" value="Confirm" />
                 </div>
             </h:form>
+            
+            
 
         </ui:define>
     </ui:composition>
