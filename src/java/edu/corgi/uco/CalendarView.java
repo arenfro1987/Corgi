@@ -269,6 +269,7 @@ public class CalendarView implements Serializable {
                 s = "update appointment_slots set userid = null where userid = ?";
                 query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);
                 query.setInt(1, uid);
+                query.execute();
                 
                 s = "select * from appointment_slots where appointmentid=?";
                 query = conn.prepareStatement(s, Statement.RETURN_GENERATED_KEYS);

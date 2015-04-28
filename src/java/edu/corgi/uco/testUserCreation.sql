@@ -293,7 +293,7 @@ insert into isprereq (maincourseid, prereqcourseid) values (11, 5);
 insert into isprereq (maincourseid, prereqcourseid) values (13, 9);
 insert into isprereq (maincourseid, prereqcourseid) values (15, 13);
 
-
+/*
 insert into appointment_slots(appointmentid, userid) values(1,1);
 insert into appointment_slots(appointmentid, userid) values(2,4);
 insert into appointment_slots(appointmentid, userid) values(3,5);
@@ -306,7 +306,7 @@ insert into appointment(startdate, enddate, slots) values ('2015-04-30 22:30:00.
 
 
 
-
+*/
 
 
 
