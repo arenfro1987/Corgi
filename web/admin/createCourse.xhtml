@@ -7,10 +7,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/advisor/main.xhtml">
         <ui:define name="content" >
-            <h:form id="form" class="form-horizontal">
-                #{courseBean.createAllCourses()}
-                <p:accordionPanel multiple="true">
-                    <p:tab title="Create New Course">
+            <p:accordionPanel multiple="true">
+
+                
+
+                <p:tab title="Create New Course">
+                    <h:form id="form" class="form-horizontal">
 
 
                         <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
@@ -56,17 +58,23 @@
                         <div class="form-group">
                             <p:commandButton class="btn btn-default col-sm-offset-1" action="#{courseBean.addCourse()}"  update="@form" value="Confirm" />
                         </div>
+                    </h:form>
 
-                    </p:tab>
-                    <p:tab title="Add A Prerequisite">
+                </p:tab>
+
+
+                <p:tab title="Add A Prerequisite">
+                    <h:form id="form2">
+                        #{courseBean.createAllCourses()}
+                        #{courseBean.fillCurrentPreReq()}
                         <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="15">
                             <p:outputLabel for="courseToAddPreReqTo" value="Course to add Prerequisite to: " />
                             <p:selectOneMenu id="courseToAddPreReqTo" value="#{courseBean.courseToAddPreReqTo}" style="width:125px">
                                 <f:selectItems value="#{courseBean.allCourses}"/>
                             </p:selectOneMenu> 
-                            <p:commandButton value="Get PreReqs" update=":currentPreReq"   process="courseToAddPreReqTo" />
+                            <p:commandButton value="Get PreReqs" update="@form"   process="courseToAddPreReqTo" />
                         </h:panelGrid>
-                        
+
                         <p:dataTable id="currentPreReq" value="#{courseBean.currentPreReq}" var="Course" rendered="#{courseBean.displayPreReq}">
                             <p:column headerText="ID">
                                 <h:outputText value="#{Course.id}"/>
@@ -83,16 +91,39 @@
                             <p:column headerText="Hours">
                                 <h:outputText value="#{Course.hours}"/>
                             </p:column>
-                            
-                            
-                        
                         </p:dataTable>
                         
+                        <p:dataTable id="checkboxDT" var="course" value="#{courseBean.coursesToAddToPreReq}"  selection="#{courseBean.addedPreReqCourses}" rowKey="#{course.id}" style="margin-bottom:0" rendered="#{courseBean.displayPreReq}">
+                        <p:column selectionMode="multiple" style="width:10px;text-align:center"/>
+                        <p:column headerText="Id" style="width:10px">
+                            <h:outputText value="#{course.id}" />
+                        </p:column>
+                        <p:column headerText="Title" style="width:50px;text-align:center">
+                            <h:outputText value="#{course.title}" />
+                        </p:column>
+                        <p:column headerText="Dept" style="width:10px;text-align:center">
+                            <h:outputText value="#{course.department}" />
+                        </p:column>
+                        <p:column headerText="Couse#" style="width:20px;text-align:center">
+                            <h:outputText value="#{course.courseNumber}" />
+                        </p:column>
+                        <p:column headerText="Hours" style="width:10px;text-align:center">
+                            <h:outputText value="#{course.hours}" />
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Submit" update="@form" process="checkboxDT"  actionListener="#{courseBean.addPreReqCourses()}"/>
+                        </f:facet>
 
 
-                    </p:tab>
-                </p:accordionPanel>
-            </h:form>
+
+                    </p:dataTable>
+                    </h:form>
+                </p:tab>
+
+
+
+            </p:accordionPanel>
+
 
         </ui:define>
     </ui:composition>
