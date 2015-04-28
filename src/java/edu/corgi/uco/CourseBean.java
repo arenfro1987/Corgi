@@ -58,6 +58,9 @@ public class CourseBean implements Serializable {
     private List<Course> semesterAddedCourses = new ArrayList<>();
     private List<Course> prereqAddedCourses = new ArrayList<>();
     private List<Course> fillAllCourses = new ArrayList<>();
+    private List<Course> coursesToAddToPreReq = new ArrayList<>();
+    private List<Course> addedPreReqCourses = new ArrayList<>();
+    private int mainID =0;
 
 
     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -65,11 +68,9 @@ public class CourseBean implements Serializable {
     ArrayList<Course> courses = new ArrayList<>();
     @Resource(name = "jdbc/corgiDatabase")
     private DataSource ds;
-
-    public void fillCurrentPreReq() throws SQLException
+    
+    public String addPreReqCourses() throws SQLException
     {
-        displayPreReq =  true;
-        currentPreReq.clear();
         if (ds == null) {
             throw new SQLException("DataSource is null");
         }
@@ -81,7 +82,42 @@ public class CourseBean implements Serializable {
         }
 
         try {
-            int mainID =0;
+            for(int x = 0; x<addedPreReqCourses.size(); x++ )
+            {
+                System.out.print(addedPreReqCourses.get(x).getTitle());
+                PreparedStatement add = connection.prepareStatement("insert into isprereq "
+                        + "(maincourseid, prereqcourseid) values (?, ?)");
+                add.setInt(1, mainID);
+                add.setInt(2, addedPreReqCourses.get(x).getId());
+                add.executeUpdate();
+                
+            }
+            
+        
+        } finally {
+            connection.close();
+        }
+        
+        return "pastCourses?faces-redirect=true";
+    }
+    
+    public void fillCurrentPreReq() throws SQLException
+    {
+        displayPreReq =  true;
+        currentPreReq.clear();
+        coursesToAddToPreReq.clear();
+        if (ds == null) {
+            throw new SQLException("DataSource is null");
+        }
+
+        Connection connection = ds.getConnection();
+
+        if (connection == null) {
+            throw new SQLException("Connection");
+        }
+
+        try {
+            
             PreparedStatement state = connection.prepareStatement("select courseid from  course where title = ?");
             state.setString(1, courseToAddPreReqTo);
             ResultSet results = state.executeQuery();
@@ -105,6 +141,26 @@ public class CourseBean implements Serializable {
                 temp.setHours(results2.getInt("hours"));
                 temp.setId(results2.getInt("courseid"));
                 currentPreReq.add(temp);
+            }
+            
+            PreparedStatement allCourseList = connection.prepareStatement("select courseid, hours, dept, coursenumber, "
+                    + "title from course "
+                    + "except "
+                    + "select courseid, hours, dept, coursenumber, "
+                    + "title from isprereq join course on isprereq.PREREQCOURSEID = "
+                    + "course.COURSEID where maincourseid = ?");
+            allCourseList.setInt(1, mainID);
+            ResultSet results3 = allCourseList.executeQuery();
+            
+            while(results3.next())
+            {
+                Course temp = new Course();
+                temp.setTitle(results3.getString("title"));
+                temp.setCourseNumber(results3.getInt("coursenumber"));
+                temp.setDepartment(results3.getString("dept"));
+                temp.setHours(results3.getInt("hours"));
+                temp.setId(results3.getInt("courseid"));
+                coursesToAddToPreReq.add(temp);
             }
         
         } finally {
@@ -327,30 +383,7 @@ public class CourseBean implements Serializable {
     public String addPastCourse() {
 
         try (Connection conn = ds.getConnection()) {
-            /*
-             PreparedStatement statement = conn.prepareStatement("select courseID "
-             + "from course where dept=? and courseNumber=?");
-             statement.setString(1, department);
-             statement.setString(2, courseNumber);
-
-             int userId = 0;
-             int courseId = 0;
-
-             ResultSet results = statement.executeQuery();
-             while (results.next()) {
-             courseId = results.getInt("courseId");
-             }
-
-             PreparedStatement state = conn.prepareStatement("select userid from usertable "
-             + "where email=?");
-             state.setString(1, username);
-
-             results = state.executeQuery();
-
-             while (results.next()) {
-             userId = results.getInt("userid");
-             }
-             */
+         
             int userId = 0;
             PreparedStatement state = conn.prepareStatement("select userid from usertable "
                     + "where email=?");
@@ -497,6 +530,31 @@ public class CourseBean implements Serializable {
         return fillAllCourses;
     }
 
+    public List<Course> getAddedPreReqCourses() {
+        return addedPreReqCourses;
+    }
+
+    public void setAddedPreReqCourses(List<Course> addedPreReqCourses) {
+        this.addedPreReqCourses = addedPreReqCourses;
+    }
+    
+    public List<Course> getFillAllCourses() {
+        return fillAllCourses;
+    }
+
+    public void setFillAllCourses(List<Course> fillAllCourses) {
+        this.fillAllCourses = fillAllCourses;
+    }
+
+    public List<Course> getCoursesToAddToPreReq() {
+        return coursesToAddToPreReq;
+    }
+
+    public void setCoursesToAddToPreReq(List<Course> coursesToAddToPreReq) {
+        this.coursesToAddToPreReq = coursesToAddToPreReq;
+    }
+
+    
     public List<Course> getAddedCourses() {
         return addedCourses;
     }
