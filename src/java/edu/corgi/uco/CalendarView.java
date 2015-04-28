@@ -295,7 +295,7 @@ public class CalendarView implements Serializable {
                 
                 sendEmails.sendStudentSignUp(student.getFirstName(), student.getLastName(), event.getStartDate());
                 
-                sendEmails.sendStudentConfirmation(student.getFirstName(), student.getLastName(), event.getStartDate());
+                sendEmails.sendStudentConfirmation(student.getFirstName(), student.getLastName(), event.getStartDate(),user);
             }
         } catch (SQLException ex) {
             Logger.getLogger(CalendarView.class.getName()).log(Level.SEVERE, null, ex);

@@ -100,7 +100,7 @@ public class sendEmails implements Serializable {
                 email.setFrom("ucocorgi@gmail.com", "UCO Advisement");
                 email.setSubject("Advisement Update");
                 email.setMsg("You have a new appointment with " + studentFirstName + " " 
-                        + studentLastName + "on " + time + ". Any previously "
+                        + studentLastName + " on " + time + ". Any previously "
                         + "scheduled appointments with them have been canceled.");
                         
                 System.out.print("Email Address: ucocorgi@gmail.com");
@@ -139,7 +139,7 @@ public class sendEmails implements Serializable {
         
     }
 
-    public static void sendStudentConfirmation(String fn, String ln, Date date) {
+    public static void sendStudentConfirmation(String fn, String ln, Date date, String email2) {
         
         try{
                 System.out.print("hit send");
@@ -157,7 +157,7 @@ public class sendEmails implements Serializable {
                         + "preferred schedule for next semester prior to your meeting.");
                         
                 System.out.print("Email Address: ucocorgi@gmail.com");
-                email.addTo("ucocorgi@gmail.com");
+                email.addTo(email2);
 
                 System.out.print("added values");
 
@@ -184,7 +184,7 @@ public class sendEmails implements Serializable {
                     + "Please remove their hold promptly so they may enroll.");
             
             System.out.print("Email Address: ucocorgi@gmail.com");
-            email.addTo("ucosecretary@gmail.com");
+            email.addTo("ucocorgi@gmail.com");
             
             System.out.print("added values");
             
