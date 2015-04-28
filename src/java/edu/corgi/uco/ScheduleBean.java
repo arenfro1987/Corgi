@@ -5,6 +5,7 @@
  */
 package edu.corgi.uco;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
 
@@ -25,8 +27,8 @@ import javax.sql.DataSource;
  * @author vdpotvin
  */
 @Named(value = "scheduleBean")
-@RequestScoped
-public class ScheduleBean {
+@SessionScoped
+public class ScheduleBean implements Serializable {
 
     private Schedule schedule;
     private String email;
@@ -92,7 +94,7 @@ public class ScheduleBean {
                     "update schedule set approved = true where scheduleid = ?", 
                     Statement.RETURN_GENERATED_KEYS);
             query.setInt(1, schedule.getSid());
-            query.executeQuery();
+            query.executeUpdate();
             schedule.setApproved(true);
         } catch (SQLException ex) {
             Logger.getLogger(ScheduleBean.class.getName()).log(Level.SEVERE, null, ex);

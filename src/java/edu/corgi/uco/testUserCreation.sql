@@ -65,7 +65,7 @@ INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('nnn.mag
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('het@mauris.co.uk','92706320','Elliott','Glenn','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('qwer@odiovel.ca','31713272','Clarke','Shaw','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('gggg.ornare@libero.com','student',32);
-INSERT INTO GroupTable (email, groupName, userID) VALUES ('aagagsdfa@loremvehicula.com','student'33);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('aagagsdfa@loremvehicula.com','student', 33);
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('derek@techiedudes.com','66571717','Derek','Mercado','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('test@loremvehicula.com','42638067','Joel','George','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('testest.est@purusmauris.org','68098644','Buckminster','Deleon','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
