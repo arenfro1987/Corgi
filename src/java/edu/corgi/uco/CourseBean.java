@@ -205,12 +205,10 @@ public class CourseBean implements Serializable {
             statement.setString(1, getSemester());
             statement.setInt(2, getYear());
             statement.setString(3, username);
-            System.out.println(username);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
                 schedExists = true;
-                System.out.println("in loop");
                 if (schedExists) {
                     PreparedStatement getSched = conn.prepareStatement("select "
                             + "* from "
@@ -229,7 +227,25 @@ public class CourseBean implements Serializable {
                     }
                 }
             }
-            System.out.println("sched = " + schedExists);
+            if (!schedExists && year != 0) {
+                    PreparedStatement userid = conn.prepareStatement("select * from usertable where"
+                            + " email=?");
+                    userid.setString(1, username);
+                    ResultSet useridset = userid.executeQuery();
+                    int id = 0;
+                    while (useridset.next()) {
+                        id = useridset.getInt("userid");
+                    }
+                    PreparedStatement createSched = conn.prepareStatement("insert into schedule "
+                            + "(userid, approved, holdremoved, "
+                            + "semester, yearplanned)  values (?, false, false, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    createSched.setInt(1, id);
+                    createSched.setString(2, semester);
+                    createSched.setInt(3, year);
+                    createSched.executeUpdate();
+                    ResultSet schedExe = createSched.getGeneratedKeys();
+                    
+            }
         } catch (SQLException ex) {
             System.out.println(ex);
         }
@@ -293,9 +309,50 @@ public class CourseBean implements Serializable {
         return courses;
     }
     
+    public String addSemesterPlannedCourse() {
+        
+        try (Connection conn = ds.getConnection()) {
+            int userId = 0;
+            PreparedStatement state = conn.prepareStatement("select userid from usertable "
+                    + "where email=?");
+            state.setString(1, username);
+
+            ResultSet results = state.executeQuery();
+
+            while (results.next()) {
+                userId = results.getInt("userid");
+            }
+            
+            PreparedStatement schedid = conn.prepareStatement("select * from schedule where"
+                    + " userid=? and yearplanned=? and semester=?");
+            schedid.setInt(1, userId);
+            schedid.setInt(2, year);
+            schedid.setString(3, semester);
+            int schedId = 0;
+            System.out.println("userid" + userId);
+            ResultSet rs = schedid.executeQuery();
+            while (rs.next()) {
+                schedId = rs.getInt("scheduleid");
+            }
+            
+            for (int i = 0; i < getSemesterAddedCourses().size(); i++) {
+                PreparedStatement statement = conn.prepareStatement("insert into courseschedulelinkage (scheduleid, courseid)"
+                        + " values (?, ?)");
+                System.out.println(getSemesterAddedCourses().get(i).getId());
+                System.out.println(schedId);
+                statement.setInt(2, getSemesterAddedCourses().get(i).getId());
+                statement.setInt(1, schedId);
+                statement.executeUpdate();
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+        return "semesterPlanner";
+    }
     public String addSemesterCourse() {
-        System.out.println(getYear());
-        System.out.println(getSemester());
+        
         try (Connection conn = ds.getConnection()) {
             for (int i = 0; i < getSemesterAddedCourses().size(); i++) {
                 PreparedStatement statement = conn.prepareStatement("insert into CourseOffering "
@@ -309,25 +366,6 @@ public class CourseBean implements Serializable {
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        
-        return "semesterPlanner";
-    }
-    public String addSemesterPlannedCourse() {
-        /*System.out.println(getYear());
-        System.out.println(getSemester());
-        try (Connection conn = ds.getConnection()) {
-            for (int i = 0; i < getSemesterAddedCourses().size(); i++) {
-                PreparedStatement statement = conn.prepareStatement("insert into CourseOffering "
-                    + "(courseNumber, semester, yearOffered) values (?, ?, ?)");
-                statement.setInt(1, getSemesterAddedCourses().get(i).getCourseNumber());
-                statement.setString(2, getSemester());
-                statement.setInt(3, getYear());
-                statement.executeUpdate();
-            }
-            
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }*/
         
         return "semesterCourses";
     }
@@ -510,8 +548,10 @@ public class CourseBean implements Serializable {
                         "join takencourses tc on tc.courseid=pr.PREREQCOURSEID " +
                            "join usertable ut on ut.USERID=tc.USERID "
                     + "join courseoffering co on co.coursenumber=c.coursenumber" +
-                            " where email=? and co.semester='Spring' and co.yearoffered=2015");
+                            " where email=? and co.semester=? and co.yearoffered=?");
             statement.setString(1, username);
+            statement.setString(2, semester);
+            statement.setInt(3, year);
 
             ResultSet rs = statement.executeQuery();
 
@@ -522,6 +562,24 @@ public class CourseBean implements Serializable {
                 course.setTitle(rs.getString("title"));
                 course.setHours(rs.getInt("hours"));
                 course.setId(rs.getInt("courseid"));
+                fillAllCourses.add(course);
+            }
+            
+            PreparedStatement state = conn.prepareStatement("select * from course c "
+                    + " join courseoffering co on co.coursenumber=c.coursenumber where"
+                    + " co.semester=? and co.yearoffered=? and "
+                    + "not exists (select * from isprereq p where c.courseid=p.maincourseid)");
+            state.setString(1, semester);
+            state.setInt(2, year);
+            ResultSet set = state.executeQuery();
+
+            while (set.next()) {
+                Course course = new Course();
+                course.setCourseNumber(set.getInt("courseNumber"));
+                course.setDepartment(set.getString("dept"));
+                course.setTitle(set.getString("title"));
+                course.setHours(set.getInt("hours"));
+                course.setId(set.getInt("courseid"));
                 fillAllCourses.add(course);
             }
         } catch (SQLException ex) {

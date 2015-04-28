@@ -35,7 +35,7 @@
                             <f:selectItem itemLabel="Spring" itemValue="Spring" />
                             <f:selectItem itemLabel="Summer" itemValue="Summer" />
                             <f:selectItem itemLabel="Fall" itemValue="Fall" />
-                            <p:ajax event="change" listener="#{courseBean.getSemesterCourses()}" update="courseTable" />
+                            <p:ajax event="change" listener="#{courseBean.getSemesterCourses()}" update="@all" />
                         </p:selectOneMenu>
 
                         <p:outputLabel for="year" value="" />
@@ -46,7 +46,7 @@
                             <f:selectItem itemLabel="2017" itemValue="2017" />
                             <f:selectItem itemLabel="2018" itemValue="2018" />
                             <f:selectItem itemLabel="2019" itemValue="2019" />
-                            <p:ajax event="change" listener="#{courseBean.getSemesterCourses()}" update="courseTable" />
+                            <p:ajax event="change" listener="#{courseBean.getSemesterCourses()}" update="@all" />
                         </p:selectOneMenu>
                     </p:tab>
                     <p:tab title="Add A Course">
