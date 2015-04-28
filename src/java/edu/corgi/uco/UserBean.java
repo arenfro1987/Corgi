@@ -18,6 +18,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -35,7 +36,7 @@ import org.apache.commons.mail.EmailException;
  * @author vdpotvin
  */
 @Named(value = "userBean")
-@SessionScoped
+@RequestScoped
 public class UserBean implements Serializable {
 
     @Resource(name = "jdbc/corgiDatabase")
