@@ -35,7 +35,9 @@
                 </p:dataTable>
                 <h:outputText value="Schedule Approved!" rendered="#{scheduleBean.schedule.approved}"/>
                 <h:commandLink value="Mark Approved" action="#{scheduleBean.approveSchedule()}" 
-                               rendered="#{not scheduleBean.schedule.approved}"/>
+                               rendered="#{not scheduleBean.schedule.approved}">
+                    <f:ajax render="@form" />
+                </h:commandLink>
 
             </h:form>
 

@@ -65,7 +65,7 @@ INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('nnn.mag
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('het@mauris.co.uk','92706320','Elliott','Glenn','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('qwer@odiovel.ca','31713272','Clarke','Shaw','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO GroupTable (email, groupName, userID) VALUES ('gggg.ornare@libero.com','student',32);
-INSERT INTO GroupTable (email, groupName, userID) VALUES ('aagagsdfa@loremvehicula.com','student'33);
+INSERT INTO GroupTable (email, groupName, userID) VALUES ('aagagsdfa@loremvehicula.com','student', 33);
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('derek@techiedudes.com','66571717','Derek','Mercado','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('test@loremvehicula.com','42638067','Joel','George','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 INSERT INTO UserTable (email,ucoID,firstName,lastName,password) VALUES ('testest.est@purusmauris.org','68098644','Buckminster','Deleon','c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
@@ -288,10 +288,35 @@ INSERT INTO TakenCourses (courseID, userID, grade) VALUES (15,7,'A');
 INSERT INTO TakenCourses (courseID, userID, grade) VALUES (16,7,'A');
 INSERT INTO TakenCourses (courseID, userID, grade) VALUES (17,8,'A');
 
+insert into isprereq (maincourseid, prereqcourseid) values (5, 3);
+insert into isprereq (maincourseid, prereqcourseid) values (7, 5);
+insert into isprereq (maincourseid, prereqcourseid) values (8, 5);
 insert into isprereq (maincourseid, prereqcourseid) values (9, 5);
+insert into isprereq (maincourseid, prereqcourseid) values (10, 11);
 insert into isprereq (maincourseid, prereqcourseid) values (11, 5);
 insert into isprereq (maincourseid, prereqcourseid) values (13, 9);
 insert into isprereq (maincourseid, prereqcourseid) values (15, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (14, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (16, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (17, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (18, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (19, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (20, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (21, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (22, 9);
+insert into isprereq (maincourseid, prereqcourseid) values (23, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (25, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (26, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (27, 13);
+insert into isprereq (maincourseid, prereqcourseid) values (28, 22);
+
+
+
+
+
+
+
+
 
 /*
 insert into appointment_slots(appointmentid, userid) values(1,1);
