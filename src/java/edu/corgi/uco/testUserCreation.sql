@@ -288,7 +288,6 @@ INSERT INTO TakenCourses (courseID, userID, grade) VALUES (15,7,'A');
 INSERT INTO TakenCourses (courseID, userID, grade) VALUES (16,7,'A');
 INSERT INTO TakenCourses (courseID, userID, grade) VALUES (17,8,'A');
 
-
 insert into isprereq (maincourseid, prereqcourseid) values (9, 5);
 insert into isprereq (maincourseid, prereqcourseid) values (11, 5);
 insert into isprereq (maincourseid, prereqcourseid) values (13, 9);
