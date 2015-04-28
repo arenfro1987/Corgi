@@ -294,7 +294,15 @@ insert into isprereq (maincourseid, prereqcourseid) values (13, 9);
 insert into isprereq (maincourseid, prereqcourseid) values (15, 13);
 
 
+insert into appointment_slots(appointmentid, userid) values(1,1);
+insert into appointment_slots(appointmentid, userid) values(2,4);
+insert into appointment_slots(appointmentid, userid) values(3,5);
+insert into appointment_slots(appointmentid, userid) values(4,6);
 
+insert into appointment(startdate, enddate, slots) values ('2015-04-27 22:30:00.000', '2015-04-27 22:40:00.000', 2); 
+insert into appointment(startdate, enddate, slots) values ('2015-04-28 22:30:00.000', '2015-04-28 22:40:00.000', 2); 
+insert into appointment(startdate, enddate, slots) values ('2015-04-29 22:30:00.000', '2015-04-29 22:40:00.000', 2); 
+insert into appointment(startdate, enddate, slots) values ('2015-04-30 22:30:00.000', '2015-04-30 22:40:00.000', 2); 
 
 
 
