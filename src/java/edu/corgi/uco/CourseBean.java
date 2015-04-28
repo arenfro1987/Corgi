@@ -518,6 +518,7 @@ public class CourseBean implements Serializable {
     
     public List<Course> allCourses() {
         allCourses.clear();
+        fillAllCourses.clear();
         getPrereqAddedCourses().clear();
         try (Connection conn = ds.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("select * from Course");
