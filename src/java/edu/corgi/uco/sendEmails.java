@@ -42,10 +42,10 @@ public class sendEmails implements Serializable {
          System.out.print("created email file");
          email.setDebug(true);
          email.setHostName("smtp.gmail.com");
-         email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
+         email.setAuthenticator(new DefaultAuthenticator("ucocorgi2@gmail.com", "ucodrsung"));
          email.setStartTLSEnabled(true);
          email.setSmtpPort(587);
-         email.setFrom("ucocorgi@yahoo.com", "UCO CS Secretary");
+         email.setFrom("ucocorgi@gmail.com", "UCO CS Secretary");
          email.setSubject("Advisement Update");
          email.setMsg(studentFirstName + " " + studentLastName + " your advisment has been processed and the hold on your account will be removed shortly");
          System.out.print("Email Address: "+emailAddress);
@@ -66,7 +66,7 @@ public class sendEmails implements Serializable {
                 System.out.print("created email file");
                 email.setDebug(true);
                 email.setHostName("smtp.gmail.com");
-                email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
+                email.setAuthenticator(new DefaultAuthenticator("ucocorgi2@gmail.com", "ucodrsung"));
                 email.setStartTLSEnabled(true);
                 email.setSmtpPort(587);
                 email.setFrom("ucocorgi@gmail.com", "UCO CS Corgi");
@@ -94,10 +94,10 @@ public class sendEmails implements Serializable {
                 System.out.print("created email file");
                 email.setDebug(true);
                 email.setHostName("smtp.gmail.com");
-                email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
+                email.setAuthenticator(new DefaultAuthenticator("ucocorgi2@gmail.com", "ucodrsung"));
                 email.setStartTLSEnabled(true);
                 email.setSmtpPort(587);
-                email.setFrom("ucocorgi@yahoo.com", "UCO Advisement");
+                email.setFrom("ucocorgi@gmail.com", "UCO Advisement");
                 email.setSubject("Advisement Update");
                 email.setMsg("You have a new appointment with " + studentFirstName + " " 
                         + studentLastName + "on " + time + ". Any previously "
@@ -122,7 +122,7 @@ public class sendEmails implements Serializable {
          
          email.setDebug(true);
          email.setHostName("smtp.gmail.com");
-         email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
+         email.setAuthenticator(new DefaultAuthenticator("ucocorgi2@gmail.com", "ucodrsung"));
          email.setStartTLSEnabled(true);
          email.setSmtpPort(587);
          email.setFrom("ucocorgi@gmail.com", "UCO CS Corgi");
@@ -147,10 +147,10 @@ public class sendEmails implements Serializable {
                 System.out.print("created email file");
                 email.setDebug(true);
                 email.setHostName("smtp.gmail.com");
-                email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
+                email.setAuthenticator(new DefaultAuthenticator("ucocorgi2@gmail.com", "ucodrsung"));
                 email.setStartTLSEnabled(true);
                 email.setSmtpPort(587);
-                email.setFrom("ucocorgi@yahoo.com", "UCO Advisement");
+                email.setFrom("ucocorgi@gmail.com", "UCO Advisement");
                 email.setSubject("Advisement Update");
                 email.setMsg(fn + " " + ln + ", you have signed up for an advisement appointment at "
                     + date + ". It is recommended that you use the Corgi system to define your "
@@ -175,10 +175,10 @@ public class sendEmails implements Serializable {
             System.out.print("created email file");
             email.setDebug(true);
             email.setHostName("smtp.gmail.com");
-            email.setAuthenticator(new DefaultAuthenticator("ucocorgi@gmail.com", "drsunguco"));
+            email.setAuthenticator(new DefaultAuthenticator("ucocorgi2@gmail.com", "ucodrsung"));
             email.setStartTLSEnabled(true);
             email.setSmtpPort(587);
-            email.setFrom("ucocorgi@yahoo.com", "UCO Advisement");
+            email.setFrom("ucocorgi@gmail.com", "UCO Advisement");
             email.setSubject("Advisement");
             email.setMsg(name + "'s Schedule has been approved. "
                     + "Please remove their hold promptly so they may enroll.");
