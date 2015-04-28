@@ -8,43 +8,52 @@
     <ui:composition template="templates/default/main.xhtml" >
     <ui:define name="content" >
         <h1>Sign Up</h1>
+        
         <h:form class="form-horizontal">
-        <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
-
         <div class="form-group">
             <label class="control-label col-sm-2" for="ucoid">
             UCO Id:
             </label>
            <div class="col-sm-6">
-            <p:inputText id="ucoid" value="#{userBean.ucoId}" />
+            <p:inputText id="ucoid" value="#{userBean.ucoId}">
+            <p:message for='ucoid' display='text'/>
+            </p:inputText>
            </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">Email:</label>
        
             <div class="col-sm-6">
-            <p:inputText id="email" value="#{userBean.email}" />
+            <p:inputText id="email" value="#{userBean.email}">
+            <p:message for='email' display='text'/>
+            </p:inputText>
             </div>
         </div>
         
         <div class="form-group">
             <label class="control-label col-sm-2" for="fn">First Name:</label>
             <div class="col-md-10">
-                <p:inputText id="fn" value="#{userBean.firstName}" />
+                <p:inputText id="fn" value="#{userBean.firstName}">
+                <p:message for='fn' display='text'/>
+                </p:inputText>
             </div>
         </div>
         
         <div class="form-group">
             <label class="control-label col-sm-2" for="ln"> Last Name:</label>
             <div class="col-md-10">
-                <p:inputText id="ln" value="#{userBean.lastName}" />
+                <p:inputText id="ln" value="#{userBean.lastName}">
+                <p:message for='ln' display='text'/>
+                </p:inputText>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="pass">Password:</label>
         
             <div class="col-md-10">
-                <p:password value="#{userBean.password}" />
+                <p:password id='password' value="#{userBean.password}">
+                <p:message for='password' display='text'/>
+                </p:password>
             </div>
         </div>
         
@@ -60,6 +69,7 @@
                 <f:selectItem itemLabel="6110" itemValue="6110" />
                 <f:selectItem itemLabel="6660" itemValue="6660" />
             </p:selectOneMenu>
+                <p:message for='major' display='text'/>
             </div>
         </div>
         
